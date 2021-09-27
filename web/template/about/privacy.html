@@ -1,0 +1,96 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 text-layout">
+      <h2>Privacy</h2>
+
+      <p>
+        The privacy and security of our volunteer models are our utmost priority.
+      </p>
+
+      <h5>A word of caution</h5>
+
+      <p>
+         One word of caution to our users who might be inclined to
+         try and find out the identity of a model: <b>Don't do it.</b>
+      </p>
+      <p>
+         The act of asking a person who you know to have participated in this project
+         is a violation of their privacy. <b>Do not do this!</b>
+         And should you ignore this rule and do so anyway, don't be suprised by
+         the answer you get. We're certain you won't like it. Please, be respectful!
+      </p>
+
+      <h5>All the details</h5>
+
+      <p>
+        Each of our models must sign our 
+        <a href="{{ static_url('docs/We_Are_Beautiful_model_agreement.pdf') }}">model release contract</a>, 
+        that spells out clearly what the model's rights and the company's
+        obligations are. If you're curious about the details, click the link
+        above and read the contract yourself.
+      <p>
+      <p>
+        The key points in the contract:
+      </p>
+      <ul>
+         <li>The model has the right to rescind their permission for us to 
+             publish their models or to stop participating in the project at 
+             any time.</li>
+         <li>The company ensures that the privacy of the model is not violated
+             and that the model's identity is not revealed by the company.</li>
+         <li>The company will not store information that could identify the model
+             online. Our servers will not contain this information and the model
+             release contracts will never be digitized. The contracts are
+             on paper only, stored in a secure location in Switzerland.</li>
+         <li>The company will provide at least one printed 3D model to each
+             of our human models, but we will not otherwise pay our models.
+             (We the founders are not getting paid and have covered all
+              founding costs ourselves.)</li>
+      </ul>
+
+      <p>
+         The photos that are taken of the model have a limited life span; we are
+         obligated to destroy our copies of the photos once this period has
+         expired. We will not keep any of the original photos after this deadline.
+      </p>
+             
+      <p>
+         We will keep the raw 3D models that we have generated from the photos 
+         offline and will store them as long as we retain permission from the
+         model. Having access to the raw 3D models allows us to fix mistakes that
+         we may find later and perhaps improve the quality of the models later
+         in time.
+      </p>
+
+      <p>
+         Once we have finished the final models we will release the models online
+         under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">Creative 
+         Commons CC0</a> dedication, which rescinds all copyright
+         over the models and places them into the public domain. Once the model
+         files are released and users have downloaded them, it is impossible to
+         take the models back from the public. We've made this clear to our
+         human models when signing the contract. However, models can rescind
+         the permission for us to host the models on our site and for us
+         to retain the raw 3D models.
+      </p>
+
+      <p>
+         Also, we're compliant with the
+         <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation">GDPR</a>.
+         The only personally identifying data we have for our models is secured
+         offline and will never be online.
+         The exact method by which we process the user's data and the process
+         for how to rescind permission is laid out in the model release contract.
+         Our site does not use cookies (Stripe, our payment processor uses one
+         cookie if you <a href="{{ url_for('index.support') }}">support us!</a>), 
+         nor do we require logins/registration to download the models. We do not 
+         want your private information! Our servers will log and retain your IP 
+         address for up to one week and then discard it. We only store IP addresses 
+         for a week in order to help troubleshoot issues with our traffic and/or our 
+         servers. Your IP addresses will never be sold or shared with anyone. 
+      </p>
+
+    </div>
+  </div>
+{% endblock%}

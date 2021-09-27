@@ -1,0 +1,47 @@
+[
+    {
+        "name"    : "A First Introduction",
+        "tagline" : "Introductory Exhibit",
+        "slug"    : "introduction",
+        "desc"    : "Our first exhibit is an exploration of the various types of models that we feature on this site. It includes two full body models, two genital close-ups, a breast model, a lower body model and a set of buttocks.",
+        "version" : "2020-09-16",
+        "models"  : [ "554268-FSAN-1", 
+                      "628398-FSAN", 
+                      "694420-PLNN-1", 
+                      "191644-VLAN-1", 
+                      "238112-BSNN-1", 
+                      "507391-OSNN-1", 
+                      "833579-LSNN-1"  
+                    ]
+    },
+    {
+        "name"    : "Vulva Exhibit",
+        "tagline" : "A close look at vulvas",
+        "slug"    : "vulvas",
+        "desc"    : "A detailed view of vulvas, including compound models of excited/not-excited vulvas.",
+        "version" : "2020-09-10",
+        "models"  : [ "453703-VLNN-1", 
+                      "476551-VLNN-1", 
+                      "489561-VLNN-1", 
+                      "526534-VLRN-1", 
+                      "662767-VLAN-1",
+                      "746625-VLNP-2", 
+                      "790518-VLNN-1", 
+                      "149357-VLNN-1" 
+                    ]
+    },
+    {
+        "name"    : "Penis Exhibit",
+        "tagline" : "A package of packages",
+        "slug"    : "penises",
+        "desc"    : "A collection of penises, including circumcised and uncircumcised penises, an erect penis and a compound penis model.",
+        "version" : "2020-09-10",
+        "models"  : [ "148876-PLNN-1",
+                      "200102-PLNN-1", 
+                      "200102-PSNX-1", 
+                      "287482-PSRN-1",
+                      "842635-PTNN-1",
+                      "352392-PLNN-1" 
+                    ]
+    }
+]

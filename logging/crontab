@@ -1,0 +1,2 @@
+# restart goaccess after a new log file has been started
+1 0 * * * root killall -TERM goaccess

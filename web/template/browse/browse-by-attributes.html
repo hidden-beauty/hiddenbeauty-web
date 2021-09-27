@@ -1,0 +1,152 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 browse-layout">
+      <h2>Browse by attributes</h2>
+      <p>
+         To view the models that have the following attributes, select one or 
+         more of the buttons below to show the models:
+      </p>
+
+      <div id="buttons">
+        <div><span class="badge badge-primary" style="margin-top: 10px; margin-bottom: 1px;">history</span></div>
+        <div>
+          {% for event, active in events %}
+            <button type="button" id="e-{{ loop.index0 }}" class="btn btn-sm browse-btn 
+                {% if active %}btn-dark{% else -%}btn-outline-dark{% endif %}">
+                {{ event }}
+            </button>
+          {% endfor %}
+        </div>
+        <div><span class="badge badge-secondary" style="margin-top: 10px; margin-bottom: 1px;">tags</span></div>
+        <div>
+          {% for tag, active in tags %}
+            <button type="button" id="t-{{ loop.index0 }}" class="btn btn-sm browse-btn 
+                {% if active %}btn-dark{% else -%}btn-outline-dark{% endif %}">
+                {{ tag }}
+            </button>
+          {% endfor %}
+        </div>
+        <div><span class="badge badge-info" style="margin-top: 10px; margin-bottom: 1px;">other</span></div>
+        <div>
+          {% for i, active in info %}
+            <button type="button" id="i-{{ loop.index0 }}" class="btn btn-sm browse-btn 
+                {% if active %}btn-dark{% else -%}btn-outline-dark{% endif %}">
+                {{ i }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+      <hr/>
+      <div id="results">
+         <p id="results-msg" style="font-size: 18; margin-top: 2rem; color: #555;" class="text-center">
+           No results.
+         </p>
+      </div>
+    </div>
+  </div>
+{% endblock%}
+{% block scripts %}
+<script>
+    var model_index = JSON.parse({{ models |tojson }});
+    var info_list = JSON.parse({{ info_list |tojson }});
+    var tags_list = JSON.parse({{ tags_list |tojson }});
+    var events_list = JSON.parse({{ events_list |tojson }});
+
+    $('#buttons button').on('click', tag_clicked);
+
+    $(function() {
+        update_model_list();
+    });
+
+    function tag_clicked(event) {
+        id = event.currentTarget.id
+        console.log(id);
+        type = id[0];
+        index = parseInt(id.substr(2))
+        $("#" + id).toggleClass("btn-outline-dark");
+        $("#" + id).toggleClass("btn-dark");
+        update_model_list();
+    }
+
+    function update_model_list() {
+        models = []
+
+        $("#buttons button").each(function(index, element) {
+            var id = element.id
+            var type = id[0];
+            if (!type)
+                return
+            console.log(id);
+            if ($("#" + id).hasClass("btn-dark") && id[0] == 'e') {
+                index = parseInt(id.substr(2));
+                for(i = 0; i < events_list[index].length; i++)
+                    for(j = 0; j < events_list[index][1].length; j++)
+                        models.push(events_list[index][1][j])
+            }
+            if ($("#" + id).hasClass("btn-dark") && id[0] == 't') {
+                index = parseInt(id.substr(2));
+                for(i = 0; i < tags_list[index].length; i++)
+                    for(j = 0; j < tags_list[index][1].length; j++)
+                        models.push(tags_list[index][1][j])
+            }
+            if ($("#" + id).hasClass("btn-dark") && id[0] == 'i') {
+                index = parseInt(id.substr(2));
+                for(i = 0; i < info_list[index].length; i++)
+                    for(j = 0; j < info_list[index][1].length; j++)
+                        models.push(info_list[index][1][j])
+            }
+        });
+
+        models = [...new Set(models)]
+        $("#results").empty();
+
+        var results = "";
+        for(m = 0; m < models.length; m++) {
+            model = model_index[models[m]];
+
+            if (model.arrangement == "natural")
+                arrangement = "naturally arranged";
+            else
+                arrangement = model.arrangement;
+
+            tags = ``
+            for(i = 0; i < model.history_list.length; i++) 
+                tags += `<span class="badge badge-primary">${ model.history_list[i] }</span> `
+
+            for(i = 0; i < model.tags_list.length; i++) 
+                tags += `<span class="badge badge-secondary">${ model.tags_list[i] }</span> `
+
+            for(i = 0; i < model.info_list.length; i++) 
+                tags += `<span class="badge badge-info">${ model.info_list[i] }</span> `
+
+            col = 
+               `<div class="row">
+                  <div class="col-md-8"> 
+                    <div>
+                      <a class="browse-model-link" href="/model/${ model.display_code }">${ model.display_code }</a> - 
+                      ${ model.body_part },
+                      ${ model.pose },
+                      ${ arrangement }
+                    </div>
+                    <div>
+                      ${ tags }
+                    </div>
+                  </div> 
+                  <div class="col-md-4 text-center"> 
+                    <a href="/model/${ model.display_code }"><img style="max-width: 75%" src="${ model.screenshot_url }"/></a>
+                  </div>
+                </div>`;
+
+            if (m % 2 == 0)
+                results += `<div class="row" style="margin-top: 10px"><div class="col-md-6">${col}</div>`
+            else
+                results += `<div class="col-md-6">${ col }</div></div><hr>`
+        }
+
+        $("#results").append(results);
+        $('#results button').on('click', preview_clicked);
+    }
+
+</script>
+{% endblock %}

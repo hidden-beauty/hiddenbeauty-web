@@ -1,0 +1,10 @@
+static/models/*
+static/bundle/*
+bin/models
+bin/bundles
+bin/input
+bin/in
+bin/output
+bin/out
+.ve
+.git

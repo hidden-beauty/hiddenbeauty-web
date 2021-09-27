@@ -1,0 +1,60 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 browse-layout">
+      <h2>Browse by date</h2>
+      <p>
+        This page lists our models in descending order of when they were created.
+      </p>
+
+      <div>
+        <table class="table table-striped">
+        <thead>
+          <tr>
+             <th>Created</th>
+             <th>Released</th>
+             <th>Description</th>
+             <th></th>
+          </tr>
+        </thead>
+        {% for model in models %}
+          <tr>
+            <td style="width: 5%">
+               <b>{{ model.created }}</b>
+            </td>
+            <td style="width: 5%">
+               <b>{{ model.released }}</b>
+            </td>
+            <td style="width: 45%">
+               <a class="browse-model-link" href="/model/{{ model.display_code }}">{{ model.display_code }}</a> -
+               {{ model.pose }},
+               {% if model.arrangement == "natural" %}
+                 naturally arranged
+               {% else %}
+                 {{ model.arrangement }}
+               {% endif %}
+            </td>
+            <td style="width: 45%" class="text-right">
+               {% if model.history_list %}
+                 <span class="model-tags">
+                 {% for event in model.history_list %}
+                   <a href="{{ url_for("browse.by_attributes", a=event) }}"><span class="badge badge-primary">{{ event }}</span></a>
+                 {% endfor %}
+                 </span>
+               {% endif %}
+               {% for tag in model.tags_list %}
+                 <a href="{{ url_for("browse.by_attributes", a=tag) }}"><span class="badge badge-secondary">{{ tag }}</span></a>
+               {% endfor %}
+               {% for i in model.info_list %}
+                 <a href="{{ url_for("browse.by_attributes", a=i) }}"><span class="badge badge-info">{{ i }}</span></a>
+               {% endfor %}
+           </td>
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+
+    </div>
+  </div>
+{% endblock%}
+

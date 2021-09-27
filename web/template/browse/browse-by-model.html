@@ -1,0 +1,85 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 browse-layout">
+      <h2>Browse by model</h2>
+      <p>
+        This page lists all of the 3D models we have available, ordered by their human identifier. If you wish to
+        narrow down the list of models based on model attributes, please have a look at our 
+        <a href="{{ url_for('browse.by_attributes') }}">browse by attribute</a> page.
+      <p>
+        If you're wondering why we have the collection of models we have, see our 
+        <a href="{{ url_for("docs.diversity") }}">model diversity statement</a> for more details.
+      </p>
+
+      {% for model in model_list %}
+        {{ list_models(model, models[model]) }}
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock%}
+
+{% macro list_models(id, models) -%}
+    <div class="row" style="margin-top: 15px">
+      <div class="col-md-3">
+        <span class="browse-section">{{ id }}</span>
+      </div>
+      <div class="col-md-9 text-right">
+          {% if models[0].common_tags_list %}
+            {% if models[0].history_list %}
+              <span class="history-tags">
+                {% for event in models[0].history_list %}
+                  <a href="{{ url_for("browse.by_attributes", a=event) }}"><span class="badge badge-primary" style="margin-top: 15px">{{ event }}</span></a>
+                {% endfor %}
+              </span>
+            {% endif %}
+            {% for tag in models[0].common_tags_list %}
+              <a href="{{ url_for("browse.by_attributes", a=tag) }}"><span class="badge badge-secondary" style="margin-top: 15px">{{ tag }}</span></a>
+            {% endfor %}
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <td colspan="3">
+          <span class="model-english">{{ models[0].human_model_description() }}</span>
+        </td>
+      </thead>
+   
+      {% for model in models %}
+        <tr>
+          <td style="width: 20%">
+            {{ model.body_part }}
+          </td>
+          <td>
+            <span class="pose-desc">
+              {{ model.pose }},
+              {% if model.arrangement == "natural" %}
+                naturally arranged,
+              {% else %}
+                {{ model.arrangement }},
+              {% endif %}
+              {{ model.excited }}
+              {% for tag in model.tags_list %}
+                <span class="badge badge-secondary">{{ tag }}</span>
+              {% endfor %}
+            </span>
+          </td>
+          <td class="text-right" style="width: 30%">
+            <a href="/model/{{ model.display_code }}">{{ model.display_code }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+{%- endmacro %}
+
+{% block scripts %}
+<script>
+$('table tbody tr').click(function() {
+    console.log("click")
+});
+</script>
+{% endblock %}

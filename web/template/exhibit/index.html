@@ -1,0 +1,63 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 browse-layout">
+        <h2>Model exhibits</h2>
+
+        {% if error %}
+           <div class="alert alert-danger" role="alert">
+              {{ error }}
+           </div>
+        {% endif %}
+
+        <p>
+          We have many models available on this site and it can be hard to know where to start. In these
+          exhibit pages we would like to highlight some of our models. While most of the models on the
+          site are straighforward 3D representations of humans models, other models are more complex
+          or belong in a series that may not be immediately obvious.
+        </p>
+
+        <p>
+          For each exhibit we have a downloadable model kit that contains the ready-to-print models 
+          described in the exhibit. We hope that these kits will be useful to sexual education
+          teachers and will provide better tools to use in class.
+        </p>
+
+        {% for kit in kits %}
+          <div>
+            <div class="kit-name">{{ kit.name }}</div>
+            <div class="kit-tagline">{{ kit.tagline }}</div>
+            <div class="kit-desc">{{ kit.desc }}</div>
+            <div class="row">
+              {% for model in kit.models[:4] %}
+                <div class="col-sm-3 text-center">
+                  <a href="/model/{{ model.model }}">
+                    <img src="{{ model.screenshot }}" class="exhibit-screenshot">   
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="row kit-buttons">
+              <div class="col-sm-6 text-center" style="padding-top: 5px">
+                <a type="button" 
+                   class="btn btn-large btn-outline-primary" 
+                   style="width: 60%" 
+                   href="/exhibit/{{ kit.slug }}">
+                  View Exhibit
+                </a>
+              </div>
+              <div class="col-sm-6 text-center" style="padding-top: 5px">
+                <a type="button" 
+                   class="btn btn-large btn-outline-primary" 
+                   style="width: 60%" 
+                   href="/exhibit/{{ kit.slug }}/download">
+                  Download kit
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+    </div>
+  </div>
+{% endblock%}

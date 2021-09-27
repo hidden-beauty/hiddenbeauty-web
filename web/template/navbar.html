@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-light {% if navbar_hidden %}invisible{% endif %}"
+      id="navbar" style="background-color: #F7F7F7;" >
+    
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            About
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('index.about') }}">about</a>
+            <a class="dropdown-item" href="{{ url_for('index.privacy') }}">privacy</a>
+            <a class="dropdown-item" href="{{ url_for('index.team') }}">our team</a>
+            <a class="dropdown-item" href="{{ url_for('index.company') }}">our company</a>
+            <a class="dropdown-item" href="{{ url_for('index.opensource') }}">open source</a>
+          </div>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Models
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('exhibit.index') }}">model exhibits</a>
+            <a class="dropdown-item" href="{{ url_for('browse.by_part') }}">browse by body part</a>
+            <a class="dropdown-item" href="{{ url_for('browse.by_model') }}">browse by model</a>
+            <a class="dropdown-item" href="{{ url_for('browse.by_attributes') }}">browse by attributes</a>
+            <a class="dropdown-item" href="{{ url_for('browse.by_date') }}">browse by date</a>
+          </div>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Education
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('docs.guide') }}">guide to sexual anatomy</a>
+            <a class="dropdown-item" href="{{ url_for('docs.model_codes') }}">model codes explained</a>
+            <a class="dropdown-item" href="{{ url_for('docs.diversity') }}">model diversity</a>
+            <a class="dropdown-item" href="{{ url_for('docs.statistics') }}">model statistics</a>
+            <a class="dropdown-item" href="{{ url_for('docs.faq') }}">frequently asked questions</a>
+            <a class="dropdown-item" href="{{ url_for('docs.printing_guide') }}">printing guide</a>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index.contact') }}">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="mx-auto order-0">
+      <a class="navbar-brand" href="/index">
+        <img style="width: 250px" src="{{ static_url('img/hiddenbeauty.svg') }}" alt="hiddenbeauty" />
+      </a>
+    </div>
+    
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+        </li>
+      </ul>
+    </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-controls=".dual-collapse2" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>

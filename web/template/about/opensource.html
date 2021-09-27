@@ -1,0 +1,67 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <div class="row">
+    <div class="col-12 text-layout">
+        <h2>Open Source</h2>
+
+        <p>
+           This project is 100% <a href="https://opensource.org/osd">open source</a>. All of the code,
+           public data, models and surfaces are released under the
+           <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0 dedication</a>.
+        </p>
+        <p>
+           If you spot a problem with this site, please open an issue at our
+           <a href="https://github.com/hiddenbeauty/hiddenbeauty-web">issue tracker</a> and
+           describe what problem you are seeing. If possible, please attach a screenshot of the issue
+           your are experiencing.
+        </p>
+
+        <h4 class="mt-4 mb-2">GitHub Repositories</h4>
+
+        <p>
+           On our <a href="https://github.com/hiddenbeauty/">GitHub page</a> you can see all of the repositories
+           that make up the We Are Beautiful project:
+        </p>
+
+        <ul>
+           <li>
+             <a href="https://github.com/hiddenbeauty/hiddenbeauty-web">hiddenbeauty-web</a>: All of the
+             code and scripts needed to run this website.
+           </li>
+           <li>
+             <a href="https://github.com/hiddenbeauty/hiddenbeauty-surfaces">hiddenbeauty-surfaces</a>:
+             All of the surfaces, solids and public metadata which are the sources for the models on our site.
+             This repository should be considered the master archive of our models and surfaces.
+           </li>
+           <li>
+             <a href="https://github.com/hiddenbeauty/hiddenbeauty-models">hiddenbeauty-models</a>:
+             All of the processed surfaces, solids and public metadata ready for display and download
+             on our website. All of the models in this repository have been derived from the
+             <em>hiddenbeauty-surfaces</em> archive. This repository should be considered a convenience repository
+             and if anyone would like to fix or improve any of our surfaces or solids, it should not be done
+             in this repository -- use the
+             <a href="https://github.com/hiddenbeauty/hiddenbeauty-surfaces">hiddenbeauty-surfaces</a>
+             instead.
+           </li>
+           <li>
+             <a href="https://github.com/hiddenbeauty/hiddenbeauty-tools">hiddenbeauty-tools</a>: The tools
+             required to turn surfaces into solids, scale and clean up solids, add model codes, create
+             the master database and other tools that support creating the data for this site.
+           </li>
+        </ul>
+
+        <p>
+          Many of our models contain minor errors on their surfaces. While we've worked hard to reduce these
+          errors, some still remain and we dont have time to fix absolutely every last problem.
+          (Release early, release often, right?) We're certain that all of the models are printable and viewable,
+          which is our primary concern.
+        </p>
+        <p>
+          If you feel like helping us remove the errors from our models, we'd love to receive pull requests to our
+          <a href="https://github.com/hiddenbeauty/hiddenbeauty-surfaces">hiddenbeauty-surfaces</a> repository.
+        </p>
+
+      </div>
+
+  </div>
+{% endblock%}

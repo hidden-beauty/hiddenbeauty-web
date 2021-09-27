@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block meta %}
+    {% endblock %}
+
+    {% block styles %}
+    <link rel="stylesheet" href="{{ static_url('gcss/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ static_url('css/hb.css') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ static_url('img/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ static_url('img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ static_url('img/favicon-96x96.png') }}">
+    {% endblock %}
+
+    <title>{% block title %}Hidden Beauty{% endblock %}</title>
+    <script src="https://kit.fontawesome.com/b9068ed18c.js" crossorigin="anonymous"></script>
+
+    {% endblock %}
+  </head>
+  <body>
+
+  {%- include 'navbar.html' -%}
+  <div id="container" class="{% if not container %}container-lg{% else %}{{ container }}{% endif %}">
+    {% block content %}
+    {% endblock%}
+    <div id="footer" class="row {% if footer_hidden %}invisible{% endif %}">
+       <div class="col-md-5 text-center">
+          Hidden Beauty is hosted by <a href="https://mayhem.cat">Mayhem</a>.
+       </div>
+       <div class="col-md-3 text-center">
+          <a href="/about">About</a> | 
+          <a href="/contact">Contact</a>
+       </div>
+       <div class="col-md-4 text-center">
+          No copyrights on any content! (<a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>)
+       </div>
+    </div>
+  </div>
+
+  {% block js %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  {% endblock %}
+
+  {% block scripts %}
+  {% endblock %}
+
+</body>
+</html>
+

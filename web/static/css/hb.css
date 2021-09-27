@@ -1,0 +1,322 @@
+body {
+    background: #fcfcfc;
+}
+
+h2 { 
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.text-layout {
+}
+
+.browse-layout {
+}
+
+@media (min-width: 576px) { 
+
+  .text-layout {
+      padding-right: 4rem;
+      padding-left: 4rem;
+  }
+
+  .browse-layout {
+      padding-right: 2rem;
+      padding-left: 2rem;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+  .text-layout {
+      padding-right: 8rem;
+      padding-left: 8rem;
+  }
+
+  .browse-layout {
+      padding-right: 4rem;
+      padding-left: 4rem;
+  }
+
+}
+
+@media (min-width: 992px) {
+
+  .text-layout {
+      padding-right: 12rem;
+      padding-left: 12rem;
+  }
+
+  .browse-layout {
+      padding-right: 6rem;
+      padding-left: 6rem;
+  }
+
+}
+
+.team-name {
+    font-size: 15pt;
+    font-weight: bold;
+    margin-top: .5em;
+}
+
+.team-nickname {
+    font-size: 12pt;
+    font-weight: italic;
+    margin-top: -15px;
+}
+
+.team-title {
+    font-style: italic;
+    font-size: 12pt;
+    margin-top: -15px;
+    color: #888;
+}
+
+.kit-name {
+    font-weight: bold;
+    font-size: 18pt;
+    margin-top: 2rem;
+}
+
+.kit-tagline {
+    font-style: italic;
+    font-size: 14pt;
+    color: #888;
+    margin-bottom: .75rem;
+}
+
+.kit-desc {
+    font-size: 12pt;
+    margin-bottom: .75rem;
+}
+
+.kit-buttons {
+    margin-top: .75rem;
+}
+
+.quote {
+    font-style: italic;
+    margin-left: 25px;
+}
+
+.index-logo {
+    width: 60%;
+}
+
+.index-image {
+    width: 320px;
+    border-radius: 10px;
+    padding-bottom: 5px;
+}
+
+.guide-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.index-text {
+    font-size: 18pt;
+}
+
+#index-nsfw {
+    display: none;
+}
+
+#index-red-pill {
+    padding-top: 15px;
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+#nsfw-button {
+    margin-top: 25px;
+    width: 50%;
+    padding: 15px;
+}
+
+.tagline {
+    font-size: 21pt;
+    font-weight: bold;
+    color: #666;
+    padding-bottom: 35px;
+}
+
+.screenshot {
+    width: 80%;
+    border-radius: 15px;
+}
+
+.exhibit-screenshot {
+    width: 90%;
+    border-radius: 15px;
+    padding-top: 5px;
+}
+
+.scale {
+    transform: scaleY(1.05);
+    padding-top: 5px; 
+}
+
+.model-link {
+    text-decoration: none;
+}
+
+.index-cell {
+    padding: 10px;
+}
+
+.carousel-inner {
+    font-size: 15pt;
+    font-weight: bold;
+}
+
+.carousel-inner a {
+    color: #444;
+    text-decoration: none;
+}
+
+.carousel-inner a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+.carousel-indicators li {
+    background-color: #444;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    filter: invert(1);
+}
+
+.browse-section {
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+.browse-model-link {
+    font-size: 13pt;
+    margin-top: 1em;
+}
+
+.txt-cell {
+    background: #EEE; 
+}
+
+.model-desc { 
+    font-size: 17pt; 
+    font-width: bold;
+    padding-bottom: .5em;
+}
+
+.model-english { 
+    font-size: 15pt; 
+    font-width: italic;
+    padding-bottom: .5em;
+}
+
+.pose-desc { 
+    color: #888;
+}
+
+.browse-btn {
+    margin-top: 3px;
+    padding: 2px 4px 2px 4px;
+}
+
+.focus-button {
+    color: #333;
+}
+
+#model-overlay {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#focus-overlay {
+    padding-right: 10px;
+    font-size: 30pt; 
+    font-width: bold;
+    pointer-events: auto;
+}
+
+#code-overlay {
+    position: absolute;
+    bottom: 0px;
+    color: #333;
+    font-size: 17pt; 
+    padding-left: 5px;
+    pointer-events: auto;
+}
+
+#nav-overlay {
+    position: absolute;
+    pointer-events: auto;
+    right: 7px;
+    bottom: 0px;
+}
+
+#spinner-overlay {
+    position: absolute;
+    pointer-events: auto;
+    text-align: center;
+    width: 100%;
+    bottom: 50%;
+}
+
+#spinner {
+    font-size: 50pt;
+}
+
+.guide-div, .guide-div img {
+  position: relative;
+
+}
+.guide-div img {
+  z-index: 1;
+}
+
+.guide-div img:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.color-well {
+    background-color: #ff0000;
+    width: 35px;
+    height: 25px;
+    margin-left: 8px;
+    margin-bottom: 8px;
+}
+
+.share-btn {
+    font-size: 24pt;
+    margin-right: 1.4rem;
+}
+
+.donate-btn {
+    margin-top: 10px;
+    width: 90%;
+}
+
+.navbar {
+  z-index: 3;
+  font-size: 15pt;
+}
+
+#footer {
+    margin-top: 5rem;
+    margin-bottom: .5rem;
+    font-size: 10pt;
+    color: #888;
+}
+
+#footer a:link { 
+    color: #888; 
+    font-weight: bold;
+}

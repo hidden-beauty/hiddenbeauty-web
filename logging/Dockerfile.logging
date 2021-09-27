@@ -1,0 +1,35 @@
+FROM phusion/baseimage:18.04-1.0.0
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+         ca-certificates \
+         build-essential \
+         python3 \
+         wget \
+         libncursesw5-dev \
+         daemonize \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /make
+RUN wget https://tar.goaccess.io/goaccess-1.4.tar.gz && \
+    tar -xzvf goaccess-1.4.tar.gz && \
+    cd goaccess-1.4/ && \
+    ./configure --enable-utf8 && \
+    make && \
+    make install    
+    
+RUN apt-get purge -y build-essential && \
+    apt-get autoremove -y && \
+    apt-get clean -y
+
+#RUN groupadd --gid 101 logger
+#RUN useradd --create-home --shell /bin/bash --uid 101 --gid 101 logger
+
+RUN mkdir -p /etc/service/logging /etc/service/mini_server
+COPY logging.service /etc/service/logging/run
+COPY mini_server.service /etc/service/mini_server/run
+COPY crontab /etc/cron.d/logging
+RUN chmod 0644 /etc/cron.d/logging
+
+WORKDIR /code
+COPY . /code

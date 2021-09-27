@@ -1,0 +1,15 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+<div class="row">
+  <div class="col-12">
+    <h1>Page not found</h1>
+    <p style="padding-top: 2rem; font-size: 15pt">
+       Oh dear, we cannot find that page anywhere, we really tried!
+    </p>
+    <p style="padding-top: 3rem;">
+       <a href="{{ url_for('index.browse') }}">Care to browse our models, instead?</a>
+    </p>
+  </div>
+</div>
+
+{% endblock%}

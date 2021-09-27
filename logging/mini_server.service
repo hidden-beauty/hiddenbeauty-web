@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 /code/mini_server.py /html

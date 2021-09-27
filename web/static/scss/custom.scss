@@ -1,0 +1,84 @@
+@import "colors";
+
+$theme-colors: (
+    "primary":   $THEME_BASE_COLOR,  // used for history pills
+    "secondary": #CF5E2D,  // used for tags pills
+    "info":      #CF412D,  // related info to model pills
+    "light":     #F2ECE5,  // backgrounds and such
+    "danger":    #CF502D   // danger
+);
+
+$link-color:       #cf7c2d;
+$link-hover-color: #F59235;
+$link-visited-color: #A86524;
+$transparent-base-color: transparentize($THEME_BASE_COLOR, 0.95);
+
+@import "bootstrap";
+
+#color-well-1 {
+    background-color: $OBJECT_COLOR_0;
+}
+
+#color-well-2 {
+    background-color: $OBJECT_COLOR_1;
+}
+
+#color-well-3 {
+    background-color: $OBJECT_COLOR_2;
+}
+
+#model {
+    background-color: $BG_COLOR;
+}
+.card-header, .table-striped tbody tr:nth-of-type(odd) {
+    background-color: $transparent-base-color;
+}
+
+h1, .h1, h2, .h2,
+h3, .h3, h4, .h4,
+h5, .h5, h6, .h6 {
+    color: $THEME_SECONDARY_COLOR;
+}
+// Fancy underline
+h1, .h1, h2, .h2,
+h3, .h3 {
+  border-bottom: 1px solid transparentize($THEME_SECONDARY_COLOR, 0.8);
+  display: inline-block;
+  line-height: 0.85;
+  text-shadow:
+    1px 1px white,
+    1px -1px white,
+    -1px 1px white,
+    -1px -1px white;
+}
+// Used as sub titles in browse pages
+.browse-section {
+    color:  $THEME_SECONDARY_COLOR;
+}
+
+$menu-color: $THEME_SECONDARY_COLOR;
+
+.navbar-light .navbar-nav {
+    .nav-link, .dropdown-item {
+        color: $menu-color;
+    }
+    .nav-link {
+        &:hover, &:active, &:focus {
+            color: darken($menu-color,10%);
+        }
+    }
+    .dropdown-item.active, .dropdown-item:active {
+        background-color: $transparent-base-color;
+    }
+    & .show > .nav-link .nav-link {
+        color: darken($menu-color,10%);
+    }
+}
+.navbar-nav .nav-link i{
+    font-size: 0.7em;
+    vertical-align: middle;
+}
+
+#support-us {
+    color: $THEME_BASE_COLOR;
+}

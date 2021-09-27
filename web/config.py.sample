@@ -1,0 +1,21 @@
+#
+# Directories
+#
+MODEL_DIR = "/hiddenbeauty-models"
+KIT_DIR = "/kits"
+
+# Options
+SUBMIT_SCREENSHOTS = True
+
+# 
+# Production Settings -- leave on defaults for dev setup.
+#
+
+# Site domain -- which domain to serve the site from.
+SITE_DOMAIN = "hiddenbeauty.ch"
+
+# content-type / host mapping
+# Each path should be without trailing /
+STATIC_BASE_URL = ""
+IMAGE_BASE_URL = ""
+STL_BASE_URL = ""

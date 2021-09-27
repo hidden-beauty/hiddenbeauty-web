@@ -1,0 +1,38 @@
+#!/bin/bash
+
+cd /code
+
+LOGFILE=/var/log/nginx/wab-comp.access.`date +%Y-%m-%d`.log
+HOME=/code
+export HOME
+
+if [ ! -f "/goaccess/IGSL_BROWSERS_MTRC_AGENTS.db" ]
+then
+    echo "Initialize a new goacess set at /goaccess"
+    head -1 $LOGFILE | goaccess - \
+         --log-format='%h %^[%d:%t %^] "%r" %s %b %T' \
+         --time-format='%H:%M:%S' \
+         --date-format='%d/%b/%Y' \
+         --persist \
+         --db-path /goaccess \
+         --process-and-exit
+fi
+
+goaccess -c $LOGFILE \
+         --log-format='%h %^[%d:%t %^] "%r" %s %b %T' \
+         --time-format='%H:%M:%S' \
+         --date-format='%d/%b/%Y' \
+         --real-time-html \
+         -o /html/index.html \
+         --restore \
+         --persist \
+         --db-path /goaccess \
+         --addr=0.0.0.0 \
+         --port=8001 \
+         --ws-url=localhost \
+         --html-report-title="We Are Beautiful Server Stats"
+
+/code/rm_old_logs.py /var/log/nginx
+
+# In case we get stuck in a loop because of a dead log file. 
+sleep 5

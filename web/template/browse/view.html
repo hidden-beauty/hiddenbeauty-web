@@ -1,0 +1,680 @@
+{%- extends 'base.html' -%}
+{% set footer_hidden = True %}
+{%- block content -%}
+<div class="row" id="top-row">
+
+    <div class="col-12" id="view-center-col" style="padding: 0px">
+
+        <div id="model-overlay" class="d-none">
+          <div id="focus-overlay" class="text-right">
+             <a href="#"><i id="close-focus" class="fas fa-times-circle d-none focus-button"></i></a>
+             <a href="#"><i id="open-focus" class="fas fa-expand focus-button"></i></a>
+          </div>
+          <div id="code-overlay">
+            {{ model.display_code }}
+          </div>
+          <div id="spinner-overlay">
+              <p><i class="fas fa-circle-notch fa-spin" id="spinner"></i></p>
+              <div id="progress"></div>
+          </div>
+          <div id="nav-overlay" class="d-inline-flex">
+             <div class="color-well rounded d-inline-flex color-well-1" id="color-well-1"></div>
+             <div class="color-well rounded d-inline-flex color-well-2" id="color-well-2"></div>
+             <div class="color-well rounded d-inline-flex color-well-3" id="color-well-3"></div>
+          </div>
+        </div>
+
+        <div id="model"></div>
+
+        {% if screenshot %}
+           <div style="margin-top: 10px">
+               <button type="button" class="btn btn-warning" id="screenshot">Take screenshot</button>
+           </div>
+        {% endif %}
+
+        <div id="distract-mode" class="d-none">
+          <p class="jump-to text-right">
+             Jump to:
+             <a href="#model-info" id="info-link" data-toggle="collapse" data-target="#collapse-info" aria-expanded="false" aria-controls="collapse-info">model information</a> |
+             <a href="#download" id="download-link" data-toggle="collapse" data-target="#collapse-download" aria-expanded="false" aria-controls="collapse-download">download</a> |
+             <a href="#share" id="share-link" data-toggle="collapse" data-target="#collapse-share" aria-expanded="false" aria-controls="collapse-share">share</a>
+          </p>
+
+         <div class="card" style="margin-bottom: 1rem">
+             <div class="card-body">
+               <h5 class="card-title">{{ model.threed_model_description(True) }}</h5>
+               <h6 class="card-subtitle mb-2 text-muted">
+                    {% for event in model.history_list %}
+                      <a href="{{ url_for("browse.by_attributes", a=event) }}"><span class="badge badge-primary">{{ event }}</span></a>
+                    {% endfor %}
+                    {% for tag in model.tags_list %}
+                      <a href="{{ url_for("browse.by_attributes", a=tag) }}"><span class="badge badge-secondary">{{ tag }}</span></a>
+                    {% endfor %}
+                    {% for info in model.info_list %}
+                      <a href="{{ url_for("browse.by_attributes", a=info) }}"><span class="badge badge-info">{{ info }}</span></a>
+                    {% endfor %}
+               </h6>
+               {% if model.comment %}
+                  <p class="card-text">{{ model.comment|safe}}</p>
+               {% else %}
+                  <p class="card-text text-muted">( this model has no comment )</p>
+               {% endif %}
+             </div>
+          </div>
+
+          <div id="accordion">
+            <div class="card">
+              <a id="model-info"></a>
+              <div class="card-header" id="heading-info">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-info" aria-expanded="true" aria-controls="collapseOne">
+                    Model information
+                  </button>
+                </h5>
+              </div>
+
+              <div id="collapse-info" class="collapse show" aria-labelledby="heading-info" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="float-right">
+                     <a href="{{ url_for('docs.model_codes') }}">Questions about our data/codes?</a>
+                  </div>
+                  <h5>3D model information</h5>
+                  <table class="table table-striped table-bordered table-sm">
+                     <tr><td style="width: 50%">body part</td><td>{{ model.body_part }}</td></tr>
+                     <tr><td>pose</td><td>{{ model.pose }}</td></tr>
+                     <tr><td>arangement type</td><td>{{ model.arrangement }}</td></tr>
+                     <tr><td>excited</td><td>{{ model.excited }}</td></tr>
+                     <tr><td>created</td><td>{{ model.created }}</td></tr>
+                     <tr><td>released</td><td>{{ model.released }}</td></tr>
+                  </table>
+
+                  <div class="float-right">
+                     <a href="{{ url_for('docs.guide') }}">Questions about this terminology?</a>
+                  </div>
+                  <h5>human model information</h5>
+                  <table class="table table-striped table-bordered table-sm">
+                     <tr><td style="width: 50%">id</td><td>{{ model.model_id }}</td></tr>
+                     <tr><td>gender</td><td>{{ model.gender }}
+                     {% if model.gender_comment %}
+                        <p>Comment: {{ model.gender_comment }}</p>
+                     {% endif %}
+                     </td></tr>
+                     <tr><td>sex</td><td>{{ model.sex }}
+                     {% if model.sex_comment %}
+                        <p>Comment: {{ model.sex_comment }}</p>
+                     {% endif %}
+                     </td></tr>
+                     <tr><td>body type</td><td>{{ model.body_type }}</td></tr>
+                     <tr><td>given birth</td><td>{{ model.given_birth }}</td></tr>
+                     {% if model.history %}
+                        <tr>
+                            <td>body history</td>
+                            <td>
+                              {% for event in model.history_list %}
+                                <a href="{{ url_for("browse.by_attributes", a=event) }}"><span class="badge badge-primary">{{ event }}</span></a></a>
+                              {% endfor %}
+                            </td>
+                         </tr>
+                     {% endif %}
+                     {% if model.tags %}
+                         <tr>
+                            <td>tags</td>
+                            <td>
+                                {% for tag in model.tags_list %}
+                                  <a href="{{ url_for("browse.by_attributes", a=tag) }}"><span class="badge badge-secondary">{{ tag }}</span></a>
+                                {% endfor %}
+                            </td>
+                         </tr>
+                     {% endif %}
+                     {% if model.links %}
+                       <tr>
+                         <td><p>Related links</p></td>
+                         <td>
+                           {% for link in model.link_list %}
+                              <p><a href="{{ link }}">{{ link }}</a></p>
+                           {% endfor %}
+                         </td>
+                        </tr>
+                     {% endif %}
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <a id="download"></a>
+              <div class="card-header" id="heading-download">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-download" aria-expanded="false" aria-controls="collapse-download">
+                    Download model files / Order a 3D print
+                  </button>
+                </h5>
+              </div>
+              <div id="collapse-download" class="collapse" aria-labelledby="heading-download" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="float-right">
+                     {% if solid %}
+                       <a href="/model/{{ model.display_code }}">View surface</a>
+                     {% else %}
+                       <a href="/model/{{ model.display_code }}/solid">Preview solid model</a>
+                     {% endif %}
+                   </div>
+                   <div>
+                     <h4>Download model or surface</h4>
+                     <p>
+                        For informaton on how to 3D print or order 3D prints of these models, please read our <a href="/docs/printing-guide">
+                        model printing guidelines</a>. To download a model or a surface, select a file below:
+                     </p>
+                     <table style="margin-left: 2rem">
+                       <tr>
+                         <td style="padding-right: 2rem">STL file format, ready for 3D printing</td>
+                         <td style="padding-right: 2rem"><a href="{{ downloads['solid'][1] }}">{{ downloads['solid'][2] }}</a></td>
+                         <td>
+                           <span class="text-muted" style="font-size: 9pt">
+                             {{ downloads['solid'][0] }} download size
+                           </span>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td style="padding-right: 2rem">STL file format, suited for 3D modeling</td>
+                         <td style="padding-right: 2rem"><a href="{{ downloads['surface'][1] }}">{{ downloads['surface'][2] }}</a>
+                         <td>
+                           <span class="text-muted" style="font-size: 9pt">
+                             {{ downloads['surface'][0] }} download size 
+                           </span>
+                         </td>
+                       </tr>
+                     </table>
+                     <p class="mt-4">
+                       If you use our models in a derivative artwork or print them using materials other than plastic, we'd love
+                       for you to <a href="/contact">mail us a picture</a>. Or perhaps even send us a unique print? We'd love to collect 
+                       our models printed using materials other than plastic!
+                     </p>
+                     <div class="row" style="margin-top: 2rem">
+                       <div class="col-sm-6">
+                         <h4>Order a 3D print of this model</h4>
+
+                         <p>
+                            If you don't have access to a 3D printer or know anyone who does, you can also have these models custom
+                            printed and mailed to you. If you'd like to order a print, press the button below to open a new tab
+                            to start the order.
+                         </p>
+
+                         <p> 
+                           Unless you are experienced with 3d printing, we recommend that you read our tips on how to order a print.
+                           The cost for simple penis or vulva prints (10cm, PLA) will likely €20-€30 ($25-$35), which isn't bad if you 
+                           don't have access to a printer. Other models, sizes and materials will increase the cost quite a bit.
+                         </p>
+                  
+                         <div class="text-center">
+                           <button class="btn btn-primary btn-large" type="button" id="upload-model">Order a print of this model</button>
+                         </div>
+
+                         <p id="disclaimer" class="text-muted" style="margin-top: 1.5rem">
+                           Note: We are not affiliated with CraftCloud and we do not earn any money referrring you to them. We just
+                           think their prices and their web site are a good match for our users. (And their team was helpful!)
+                         </p>
+                         <div id="status" class="invisible" style="margin-top: 1.5rem">
+                             Please wait a moment. <i class="fas fa-circle-notch fa-spin" style="font-size: 18pt"></i>
+                         </div>
+                       </div>
+                       <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Tips for ordering a print</h5>
+                              <h6 class="card-subtitle mb-2 text-muted">Avoid the rookie mistakes</h6>
+                              <p class="card-text">
+                                <ol>
+                                  <li>
+                                    Select a size for your model: The price of the print is directly related to the cost the print. Simple
+                                    vulva and penis models with the longest axis being about 10cm long make for a nice model to hold and
+                                    examine. Be careful with the size -- scaling models up get expensive <em>fast</em>.
+                                  </li>
+                                  <li>
+                                    Select PLA as the material: PLA is perfect for these models and the cheapest option. Of course
+                                    you can choose any other material you like -- even gold is an option.
+                                  </li> 
+                                  <li>
+                                    Select the default 20% infill: The infill determines how much material is inside an otherwise hollow
+                                    print; 20% is more than enough to make a strong print.
+                                  </li>
+                                  <li>
+                                    Select a color of your choice and then finish the process to purchase your print.
+                                  </li>
+                                </ol>
+                              </p>
+                            </div>
+                          </div>
+                       </div>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <a id="share"></a>
+              <div class="card-header" id="heading-share">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-share" aria-expanded="false" aria-controls="collapse-share">
+                    Share this model
+                  </button>
+                </h5>
+              </div>
+              <div id="collapse-share" class="collapse" aria-labelledby="heading-share" data-parent="#accordion">
+                <div class="card-body">
+                   <div class="row">
+                      <div class="col-md-7">
+                          <p>
+                            If you would like to share a link to this model, we encourage you to
+                            save this model image to your computer/device and then go to the
+                            site where you wish to post the link and upload the image from your
+                            device.
+                          </p>
+
+                          <p>
+                            On a mobile device, long press on the image and then select the option to
+                            save the image. On a computer, right click on the and select to save the
+                            image to your computer.
+                          </p>
+
+                          <p>
+                             The link to this page:</br>
+                             <input type="text"
+                                    readonly
+                                    value="https://hiddenbeauty.ch/model/{{ model.display_code }}"
+                                    id="copy-page-url-input"
+                                    style="width: 90%"
+                             >
+                             <button type="button"
+                                     class="btn btn-primary"
+                                     id="copy-page-url-button"><i class="fas fa-clipboard"></i></button>
+                          </p>
+                          <p>
+                             The link to this screenshot:</br>
+                             <input type="text"
+                                    readonly
+                                    value="https://hiddenbeauty.ch{{ url_for_tagged_screenshot_m(model) }}"
+                                    id="copy-screenshot-url-input"
+                                    style="width: 90%"
+                             >
+                             <button type="button"
+                                     class="btn btn-primary"
+                                     id="copy-screenshot-url-button"><i class="fas fa-clipboard"></i></button>
+                          </p>
+
+                          <div class="d-flex justify-content-around" style="margin-top: 1rem; width: 80%">
+                             <button type="button"
+                                     style="width: 45px"
+                                     class="btn btn-secondary btn-sm"
+                                     onclick="window.location.href='https://twitter.com/intent/tweet?text={{ share_text }}';">
+                               <i class="fab fa-twitter share-btn"></i>
+                             </button>
+                             <button type="button"
+                                     style="width: 45px"
+                                     class="btn btn-secondary btn-sm"
+                                     onclick="window.location.href='https://getpocket.com/edit?url=https://hiddenbeauty.ch/model/{{ model.display_code }}';">
+                               <i class="fab fa-get-pocket share-btn"></i>
+                             </button>
+                             <button type="button"
+                                     class="btn btn-secondary btn-sm"
+                                     style="width: 45px"
+                                     data-container="body"
+                                     data-toggle="popover"
+                                     data-placement="top"
+                                     data-content="We are unable to create a Facebook post from here. Copy the screenshot/link from this page and then go to Facebook to make a post.">
+                                <i class="fab fa-facebook share-btn"></i>
+                             </button>
+                             <button type="button"
+                                     class="btn btn-secondary btn-sm"
+                                     style="width: 45px"
+                                     data-container="body"
+                                     data-toggle="popover"
+                                     data-placement="top"
+                                     data-content="Sadly we unable to send you to Instagram from here. Load this page on your mobile, copy the screenshot or link and then open the Instagram app to make a post.">
+                                <i class="fab fa-instagram share-btn"></i>
+                             </button>
+                          </div>
+
+                      </div>
+                      <div class="col-md-5">
+                        <p class="text-center">
+                           <img class="screenshot" src="{{ url_for_tagged_screenshot_m(model) }}">
+                        </p>
+                      </div>
+                   </div>
+                </div>
+            </div>
+          </div>
+          {% if related.models %}
+            <h4 style="padding-top: 25px; padding-left: 5px; padding-right: 5px">{{ related.desc }}</h4>
+            <div id="related" class="row">
+               {% for m in related.models %}
+                 <div class="col-4 text-center">
+                     <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
+                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}"><img src="{{ url_for_screenshot_m(m) }}" class="screenshot"></a>
+                 </div>
+               {% endfor %}
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+</div>
+{% endblock%}
+
+{% block scripts %}
+<script type="module">
+
+       	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.119.1/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.119.1/examples/jsm/controls/OrbitControls.js';
+        import { STLLoader } from 'https://cdn.jsdelivr.net/npm/three@0.119.1/examples/jsm/loaders/STLLoader.js';
+
+       	var container, mesh = null;
+       	var camera, scene, renderer, controls;
+        var focus_mode = false;
+        var window_height = 0, window_width = 0;
+        var med_low_resolution_breakpoint = 992;
+        var rotate_speed = 3.0;
+
+        $(document).ready(function() {
+            init();
+            animate();
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+            $("#footer").toggleClass("invisible");
+        });
+
+        document.body.onkeydown = function(e) {
+            if (e.keyCode == 32){
+                controls.autoRotateSpeed = 0.0;
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            if (e.keyCode == 80 || e.keyCode == 112){
+                if (controls.autoRotateSpeed)
+                    controls.autoRotateSpeed = 0.0;
+                else
+                    controls.autoRotateSpeed = rotate_speed;
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        };
+        document.body.onkeyup = function(e) {
+            if (e.keyCode == 32){
+                controls.autoRotateSpeed = rotate_speed;
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        };
+
+        function get_aspect_ratio() {
+            if ({{ screenshot }})
+                return 1.0;
+            return window.innerHeight * .75 / window.innerWidth;
+        }
+
+        $('#close-focus').on('click', toggle_focus_mode);
+        $('#open-focus').on('click', toggle_focus_mode);
+        $('#focus-button').on('click', toggle_focus_mode);
+        $('#color-well-1').on('click', function() { color_well_click("#color-well-1") });
+        $('#color-well-2').on('click', function() { color_well_click("#color-well-2") });
+        $('#color-well-3').on('click', function() { color_well_click("#color-well-3") });
+        $('#screenshot').on('click', function() { screenshot() });
+        $('#copy-page-url-button').on('click', function() { copy_page_url() });
+        $('#copy-screenshot-url-button').on('click', function() { copy_screenshot_url() });
+        $("#upload-model").on('click', upload_model_to_craftcloud);
+        $("#share-link").on('click', function() {
+            $('html,body').animate({scrollTop: $("#share-link").offset().top},'slow');
+        });
+        $("#download-link").on('click', function() {
+            $('html,body').animate({scrollTop: $("#download-link").offset().top},'slow');
+        });
+        $("#info-link").on('click', function() {
+            $('html,body').animate({scrollTop: $("#info-link").offset().top},'slow');
+        });
+        $("#comment-link").on('click', function() {
+            $('html,body').animate({scrollTop: $("#comment-link").offset().top},'slow');
+        });
+
+        $(document).on('keydown', function(event) {
+            if (event.key == "Escape") {
+                if (focus_mode)
+                    toggle_focus_mode();
+            }
+        });
+
+        function toggle_focus_mode() {
+            focus_mode = !focus_mode;
+
+            $("#view-center-col").toggleClass("col-10")
+            $("#view-center-col").toggleClass("col-12")
+            $("#view-center-col").toggleClass("p-0")
+            $("#open-focus").toggleClass("d-none")
+            $("#container").toggleClass("container-lg")
+            $("#container").toggleClass("container-fluid")
+            $("#close-focus").toggleClass("d-none")
+            $("#distract-mode").toggleClass("d-none")
+            $("#footer").toggleClass("d-none")
+            $("#navbar").toggleClass("d-none")
+            if (focus_mode)
+                $("body").css("overflow", "hidden");
+            else
+                $("body").css("overflow", "auto");
+            onWindowResize();
+        }
+
+        function color_well_click(well) {
+            var color = $(well).css("background-color");
+            mesh.material = new THREE.MeshStandardMaterial( { color: color, roughness: .6, metalness: .1 } );
+            mesh.material.side = THREE.DoubleSide;
+        }
+
+        function resize_window() {
+            if (focus_mode) {
+                window_width = Math.floor(window.innerWidth);
+                window_height = Math.floor(window.innerHeight - $("#navbar").outerHeight());
+            }
+            else {
+                window_width = Math.floor($("#view-center-col").innerWidth());
+                window_height = Math.floor(window_width * get_aspect_ratio());
+            }
+
+            $("#model").height(window_height);
+            $("#model").width(window_width);
+
+            var pos = $("#model").position();
+            $("#model-overlay").height(window_height);
+            $("#model-overlay").width(window_width);
+            $("#model-overlay").position(pos);
+
+            if (renderer)
+      	        renderer.setSize(window_width, window_height);
+
+            if (camera) {
+                camera.aspect = window_width / window_height;
+                camera.updateProjectionMatrix();
+            }
+        }
+
+       	function init() {
+
+                var scale_factor;
+
+                resize_window();
+                $("#model-overlay").toggleClass("d-none")
+
+       		camera = new THREE.PerspectiveCamera( 35, window_width / window_height, 1, 15 );
+                if ({{ screenshot }}) {
+                    scale_factor = .85;
+                    camera.position.set( 0, .5, 3 );
+                } else {
+                    scale_factor = 1.20;
+                    camera.position.set( 3, .5, 3 );
+                }
+
+                var color = $("#model").css("background-color");
+       		scene = new THREE.Scene();
+       		scene.background = new THREE.Color( color );
+
+                color = $("#color-well-1").css("background-color");
+                var material = new THREE.MeshStandardMaterial( { color: color, roughness: .6, metalness: .1 } );
+                material.side = THREE.DoubleSide;
+
+                var model_file;
+                if ({{ solid }})
+                    model_file = "{{ model_file_solid }}";
+                else
+                if ($(window).width() >= med_low_resolution_breakpoint)
+                    model_file = "{{ model_file_med }}";
+                else
+                    model_file = "{{ model_file_low }}";
+
+                var loader = new STLLoader();
+       		loader.load( model_file, function ( geometry ) {
+
+                        $("#spinner-overlay").addClass("d-none")
+                        geometry.rotateZ(1.57079);
+                        geometry.computeFaceNormals();
+                        geometry.computeVertexNormals();
+                        geometry.computeBoundingBox();
+
+                        if (geometry.boundingBox.max.x < geometry.boundingBox.max.y)
+                            scale_factor /= geometry.boundingBox.max.y;
+                        else
+                            scale_factor /= geometry.boundingBox.max.x;
+
+       			mesh = new THREE.Mesh( geometry, material );
+       			mesh.scale.set(scale_factor, scale_factor, scale_factor);
+
+       			mesh.castShadow = false;
+       			mesh.receiveShadow = false;
+
+       			scene.add( mesh );
+
+                        if ({{screenshot}}) {
+                            $("#model").width(1024);
+                            $("#model").height(1024);
+                            onWindowResize();
+                            render();
+                        }
+
+       		}, function ( prog ) {
+                    if (prog.total && prog.loaded < prog.total)
+                        $("#progress").html(Math.ceil(100 * prog.loaded / prog.total) + "% loaded");
+                }, function ( err ) {
+                    $("#spinner-overlay").removeClass("d-none")
+                    $("#spinner").addClass("d-none");
+                    console.log("cannot load surface: " + err);
+                });
+
+       		// Lights
+       		scene.add( new THREE.HemisphereLight( 0x333333, 0x111111 ) );
+
+       		addShadowedLight( -2, -2, -2, 0xffffff, .40 );
+       		addShadowedLight( 2, 2, 2, 0xffffff, .40 );
+
+       		addShadowedLight( -2, -2, 2, 0xffffff, .15 );
+       		addShadowedLight( 2, 2, -2, 0xffffff, .15 );
+
+       		// renderer
+                var flags = { antialias: true };
+                if ({{ screenshot }})
+                    flags['preserveDrawingBuffer'] = true;
+                renderer = new THREE.WebGLRenderer(flags);
+       		renderer.setPixelRatio( window.devicePixelRatio );
+       		renderer.setSize( window_width, window_height );
+       		renderer.outputEncoding = THREE.sRGBEncoding;
+
+       		renderer.shadowMap.enabled = true;
+
+                controls = new OrbitControls( camera, renderer.domElement );
+                if (!{{ screenshot }}) {
+                    controls.autoRotateSpeed = rotate_speed;
+                    controls.autoRotate = true;
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
+                }
+
+      		$("#model").append( renderer.domElement );
+
+       		window.addEventListener( 'resize', onWindowResize, false );
+                $("#distract-mode").toggleClass("d-none")
+       	}
+
+       	function addShadowedLight( x, y, z, color, intensity ) {
+
+       		var directionalLight = new THREE.DirectionalLight( color, intensity );
+       		directionalLight.position.set( x, y, z );
+       		scene.add( directionalLight );
+
+       		directionalLight.castShadow = true;
+
+       		var d = 1;
+       		directionalLight.shadow.camera.left = - d;
+       		directionalLight.shadow.camera.right = d;
+       		directionalLight.shadow.camera.top = d;
+       		directionalLight.shadow.camera.bottom = - d;
+
+       		directionalLight.shadow.camera.near = 1;
+       		directionalLight.shadow.camera.far = 4;
+
+       		directionalLight.shadow.bias = - 0.002;
+
+       	}
+
+       	function onWindowResize() {
+                resize_window();
+       	}
+
+       	function animate() {
+       		requestAnimationFrame( animate );
+       		render();
+       	}
+
+       	function render() {
+                controls.update();
+       		renderer.render( scene, camera );
+       	}
+
+        function screenshot() {
+                var mime = "image/jpeg";
+                var img_data = renderer.domElement.toDataURL(mime);
+
+                $.ajax({
+                  type: "POST",
+                  url: "{{ base_url }}/model/{{ model.model_id }}-{{ model.code }}-{{ model.version }}/screenshot",
+                  data: img_data
+                });
+         }
+         function copy_page_url() {
+                $("#copy-page-url-input").select();
+                document.execCommand("copy");
+                $("#copy-page-url-button").html('<i class="far fa-thumbs-up"></i>');
+         }
+         function copy_screenshot_url() {
+                $("#copy-screenshot-url-input").select();
+                document.execCommand("copy");
+                $("#copy-screenshot-url-button").html('<i class="far fa-thumbs-up"></i>');
+         }
+         function upload_model_to_craftcloud() {
+                $("#upload-model").prop("disabled",true);
+                $("#disclaimer").slideUp(200);
+                $("#status").toggleClass("invisible");
+                $.get("{{ base_url }}/model/{{ model.display_code }}/upload", null, 
+                      upload_model_to_craftcloud_done
+                ).fail(function(jqXHR, textStatus, errorThrown) {
+                      $("#status").html('<div class="alert alert-danger" role="alert">' + jqXHR.responseText + '</div>');
+                })
+         }
+         function upload_model_to_craftcloud_done(response_text)
+         {
+             $("#status").text("Upload complete! Proceed with your order in the new tab.");
+             $("#upload-model").prop("disabled",false);
+             window.open("https://app.craftcloud3d.com/configuration/" + response_text, "_blank").focus();
+         }
+</script>
+{% endblock %}

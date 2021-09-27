@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.7"
+services:
+  - docker
+branches:
+  only:
+    - master
+install:
+  - cp config.py.sample config.py
+  - pip install -r requirements.txt
+script:
+  - ./test.sh
