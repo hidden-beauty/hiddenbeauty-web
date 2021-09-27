@@ -193,7 +193,7 @@ def model_screenshot_post(id, code, version):
             "-rotate", "90",
             "-font", BOLD_FONT_FILE, 
             "-pointsize", "36", 
-            "-draw", 'text 10,5 "https://hiddenbeauty.info"', 
+            "-draw", 'text 10,5 "https://hiddenbeauty.ch"', 
             "-rotate", "-90",
             tmp_img2], check=True)
         run(['convert',  
