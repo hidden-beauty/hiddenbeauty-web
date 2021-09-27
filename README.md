@@ -1,4 +1,4 @@
-# wearebeautiful.info
+# hiddenbeauty.ch
 
 The code that powers our main website.
 
