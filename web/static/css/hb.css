@@ -120,16 +120,6 @@ h2 {
     font-size: 18pt;
 }
 
-#index-nsfw {
-    display: none;
-}
-
-#index-red-pill {
-    padding-top: 15px;
-    font-size: 20pt;
-    font-weight: bold;
-}
-
 #nsfw-button {
     margin-top: 25px;
     width: 50%;
