@@ -87,11 +87,9 @@ def index():
 def browse():
     return redirect(url_for("browse.by_part"))
 
-
 @bp.route('/team')
 def team():
     return render_template("about/team.html")
-
 
 @bp.route('/about')
 def about():
@@ -104,22 +102,6 @@ def company():
 @bp.route('/contact')
 def contact():
     return render_template("about/contact.html")
-
-@bp.route('/support')
-def support():
-    return render_template("support/support.html")
-
-@bp.route('/support/success')
-def support_success():
-    return render_template("support/support-success.html")
-
-@bp.route('/support/cancel')
-def support_cancel():
-    return render_template("support/support-cancel.html")
-
-@bp.route('/donate')
-def donate():
-    return redirect(url_for("index.support"))
 
 @bp.route('/privacy')
 def privacy():

@@ -23,6 +23,11 @@ MAX_NUM_RELATED_MODELS = 3
 
 bp = Blueprint('model', __name__)
 
+@bp.after_request
+def noindex(response):
+    response.headers['X-Robots-Tag'] = "noindex"
+    return response
+
 @bp.route('/m/<path:filename>')
 def send_model(filename):
     if current_app.debug and filename.endswith(".stl"):

@@ -11,6 +11,11 @@ import config
 
 bp = Blueprint('browse', __name__)
 
+@bp.after_request
+def noindex(response):
+    response.headers['X-Robots-Tag'] = "noindex"
+    return response
+
 
 @bp.route('/by-part')
 def by_part():

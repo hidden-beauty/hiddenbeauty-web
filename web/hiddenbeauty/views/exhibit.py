@@ -6,6 +6,11 @@ from hiddenbeauty.kits import load_kit_list, make_kit_filename
 
 bp = Blueprint('exhibit', __name__)
 
+@bp.after_request
+def noindex(response):
+    response.headers['X-Robots-Tag'] = "noindex"
+    return response
+
 
 @bp.route('/')
 def index():

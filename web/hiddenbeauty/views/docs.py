@@ -10,6 +10,11 @@ import config
 
 bp = Blueprint('docs', __name__)
 
+@bp.after_request
+def noindex(response):
+    response.headers['X-Robots-Tag'] = "noindex"
+    return response
+
 @bp.route('/printing-guide')
 def printing_guide():
     return render_template("docs/printing-guide.html")
@@ -26,12 +31,9 @@ def faq():
 def guide():
     return render_template("docs/illustrated-guide.html")
 
-
-
 @bp.route('/model-diversity')
 def diversity():
     return render_template("docs/model-diversity.html")
-
 
 @bp.route('/statistics')
 def statistics():
