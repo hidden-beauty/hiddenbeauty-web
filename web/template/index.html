@@ -1,6 +1,5 @@
 {%- extends 'base.html' -%}
 {% set navbar_hidden = True %}
-{% set footer_hidden = True %}
 {%- block content -%}
 <div class="row">
 
@@ -13,163 +12,110 @@
           We Are Beautiful!
         </div>
       </div>
-      <h2 style="display: none;" class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
+      <h2 class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
     </div>
 
 </div>
 <div class="row">
-    <div class="col-md-8">
-      <div class="index-text">
-        <p>
-            Fresh guff is needed here.
-        </p>
+  <div class="col-md-12 index-text">
+    <p>
+       [ New fancy Hidden Beauty intro here ]
+    </p>
+    <p>
+       We have {{ model_count }} models and all of our models are between {{ min_age }} and {{ max_age}} years
+       old and span a wide range
+       of <a href="{{ url_for('docs.diversity') }}">ages, body types and countries of origin</a>. We've
+       carefully curated all the metadata of our models and are
+       releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
+       private information. We never reveal the identity of our models and this information does not exist online at all.
+    </p>
+    <p>
+       We suggest that you to start with our <a href="/exhibit">exhibits</a> for the best introduction to this site, or
+       browse our models online, download the 3D solids for printing or order a print online. You may also
+       download the surfaces and use them in your own 3D modeling projects.
+    </p>
+
+    <h4>Browse</h4>
+
+    <div class="ml-4">
+      <p>
+         <a href="{{ url_for('browse.by_part') }}">browse by body part</a>: All models organized by body part.
+      </p>
+      <p>
+         <a href="{{ url_for('browse.by_model') }}">browse by model</a>: All models organized by human model.
+      </p>
+      <p>
+         <a  href="{{ url_for('browse.by_attributes') }}">browse by attributes</a>: Browse models based on their attributes.
+      </p>
+      <p>
+         <a  href="{{ url_for('browse.by_date') }}">browse by date</a>: Browse models based on their creation date.
+      </p>
+    </div>
+
+    <h4>Sample models</h4>
+      
+    <div class="w-50 p-3">
+      <div id="image-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          {% for slide in sample_models %}
+            <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+              <a href="{{slide.link}}" class="carousel-link">
+                 <img class="d-block w-100 index-image" src="{{ slide.screenshot }}" alt="{{ slide.desc }}">
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#image-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#image-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
     </div>
-    <div class="col-md-4 text-center">
-      <img class="index-image" src="{{ url_for_screenshot('000000', 'HSNN', 1) }}">
-      <img class="index-image" src="{{ url_for_screenshot('694420', 'HTAX', 1) }}">
-    </div>
-</div>
-<div class="row text-layout mt-4" id="index-red-pill">
-    <div class="col-md-12 text-center">
-       <button id="bits-button" type="button" class="btn btn-primary btn-lg" style="width: 75%">
-          I agree to view models of humans!
-       </button>
-    </div>
-</div>
-<div id="index-nsfw">
-  <div class="row">
-     <div class="col-md-8 index-text">
-        <p>
-           We have {{ model_count }} models and all of our models are between {{ min_age }} and {{ max_age}} years
-           old and span a wide range
-           of <a href="{{ url_for('docs.diversity') }}">ages, body types and countries of origin</a>. We've
-           carefully curated all the metadata of our models and are
-           releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
-           private information. We never reveal the identity of our models and this information does not exist online at all.
-        </p>
-        <p>
-           We suggest that you to start with our <a href="/exhibit">exhibits</a> for the best introduction to this site, or
-           browse our models online, download the 3D solids for printing or order a print online. You may also
-           download the surfaces and use them in your own 3D modeling projects.
-        </p>
-        <p>
-           Start browsing now:
-        </p>
-        <div class="ml-4">
-          <p>
-             <a href="{{ url_for('browse.by_part') }}">browse by body part</a>: All models organized by body part.
-          </p>
-          <p>
-             <a href="{{ url_for('browse.by_model') }}">browse by model</a>: All models organized by human model.
-          </p>
-          <p>
-             <a  href="{{ url_for('browse.by_attributes') }}">browse by attributes</a>: Browse models based on their attributes.
-          </p>
-          <p>
-             <a  href="{{ url_for('browse.by_date') }}">browse by date</a>: Browse models based on their creation date.
-          </p>
+     
+    <h4>Our Picks</h4>
+
+    <div class="w-50 p-3">
+      <div id="picks-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          {% for slide in picks_models %}
+            <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+              <a href="{{slide.link}}" class="carousel-link">
+                <img class="d-block w-100" src="{{ slide.screenshot }}" alt="{{ slide.desc }}">
+              </a>
+            </div>
+          {% endfor %}
         </div>
-        <p>
-           We hope that you will find our site educational!
-        </p>
-     </div>
-     <div class="col-md-4">
-         <div class="text-center">
-            <h4><a href="/exhibit">Exhibits</a></h4>
-         </div>
-         <div id="image-carousel" class="carousel slide" data-ride="carousel">
-           <div class="carousel-inner">
-             {% for slide in sample_models %}
-               <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-                 <a href="{{slide.link}}" class="carousel-link">
-                    <img class="d-block w-100 index-image" src="{{ slide.screenshot }}" alt="{{ slide.desc }}">
-                 </a>
-               </div>
-             {% endfor %}
-           </div>
-           <a class="carousel-control-prev" href="#image-carousel" role="button" data-slide="prev">
-             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-             <span class="sr-only">Previous</span>
-           </a>
-           <a class="carousel-control-next" href="#image-carousel" role="button" data-slide="next">
-             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-             <span class="sr-only">Next</span>
-           </a>
-         </div>
+        <a class="carousel-control-prev" href="#picks-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#picks-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
 
-         <div class="text-center">
-            <h4 class="mt-4"><a href="/browse/by-attributes?a=compound-model">Compound models</a></h4>
-         </div>
-         <div id="picks-carousel" class="carousel slide" data-ride="carousel">
-           <div class="carousel-inner">
-             {% for slide in picks_models %}
-               <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-                 <a href="{{slide.link}}" class="carousel-link">
-                   <img class="d-block w-100" src="{{ slide.screenshot }}" alt="{{ slide.desc }}">
-                 </a>
-               </div>
-             {% endfor %}
-           </div>
-           <a class="carousel-control-prev" href="#picks-carousel" role="button" data-slide="prev">
-             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-             <span class="sr-only">Previous</span>
-           </a>
-           <a class="carousel-control-next" href="#picks-carousel" role="button" data-slide="next">
-             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-             <span class="sr-only">Next</span>
-           </a>
-         </div>
-
-     </div>
   </div>
-
-  <div class="row space-above-md">
-     <div class="col-md-12 index-text">
-       <h4 class="mt-5 mb-4">Our illustrated guide to human sexual anatomy</h4>
-       <p>
-         If any of the terminology presented on this site is confusing to you, we have an
-         <a href="{{ url_for('docs.guide') }}">illustrated guide to human sexual anatomy</a> to help
-         guide you through the various concepts:
-       </p>
-       <div class="text-center">
-         <a href="{{ url_for('docs.guide') }}">
-           <img class="guide-image" src="{{ static_url('img/illustrations/group-low-sat.png') }}">
-         </a>
-       </div>
-     </div>
-  </div>
-
-  <div class="row">
-     <div class="col-md-12 index-text">
-         <h4 class="mt-4 mb-4">Most recently released models</h4>
-         <div id="recent-models" class="row text-center">
-            {% for m in recent_models %}
-              <div class="col-md-4">
-                  <p class="mb-2"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
-                  <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}"><img src="{{ url_for_screenshot_m(m) }}" class="screenshot"></a>
-              </div>
-            {% endfor %}
-         </div>
-     </div>
-  </div>
-
 </div>
 {% endblock%}
 
 {% block scripts %}
 <script>
-var revealed = false;
 $(document).ready(function() {
-   $('#bits-button').on('click', show_me_bits_clicked);
+    var show_nav_bar = false;
+    $(document).scroll(function() {
+        if (!show_nav_bar) {
+            $("#navbar").toggleClass("invisible");
+            $("#logo-div").slideUp(200);
+            $("#heading").slideDown(200);
+            show_nav_bar = true
+        }
+    });
 });
-function show_me_bits_clicked() {
-   $("#index-nsfw").slideDown(200);
-   $("#navbar").toggleClass("invisible");
-   $("#footer").toggleClass("invisible");
-   $("#index-red-pill").slideUp(200);
-   $("#logo-div").slideUp(200);
-   $("#heading").slideDown(200);
-}
 </script>
 {% endblock %}
