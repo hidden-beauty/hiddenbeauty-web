@@ -1,44 +1,41 @@
-#!/bin/bash
 
-SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-LOGDIR=/home/wab/logs
-LOGDIR_UID=101
-MODELS=/home/wab/wearebeautiful-models
-KITS=/home/wab/kit-cache
-WAB_DOMAIN=`echo "import config; print(config.SITE_DOMAIN)" | python3`
+version: "3.3"
 
-mkdir -p $KITS
+volumes:
+    hb-cache-volume:
 
-echo "---- start wearebeautiful web"
-docker run -d \
-    --expose 3031 \
-    --name wab-web \
-    --network=wab-network \
-    -v $MODELS:/wearebeautiful-models \
-    -v $KITS:/kits \
-    -v $SRC_DIR/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro \
-    wearebeautiful.info:prod uwsgi --ini /code/uwsgi.ini
+services:
 
-echo "---- create cache volume"
-docker volume create --driver local --name wab-cache-volume
+  # NOTE: run this after the site comes up to make the kits
+  # docker exec -it h-web python3 make_kits.py
+  web:
+    build: .
+    expose:
+      - "3031"
+    volumes:
+      - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
+      - /home/hb/kits:/kits
+      - /home/hb/hiddenbeauty-web/web/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
+    environment:
+      - VIRTUAL_HOST=hiddenbeauty.ch
+      - LETSENCRYPT_HOST=hiddenbeauty.ch
+      - LETSENCRYPT_EMAIL=mayhem@gmail.com
+    command: uwsgi --ini /code/uwsgi.ini
 
-echo "---- start wearebeautiful comp"
-mkdir -p $LOGDIR && sudo chown $LOGDIR_UID:$LOGDIR_UID $LOGDIR
-docker run -d \
-    --expose 8080 \
-    --name wab-comp \
-    -v wab-cache-volume:/cache \
-    -v $MODELS:/models:ro \
-    -v $SRC_DIR/admin/nginx/wab-comp.conf:/etc/nginx/nginx.conf:rw \
-    -v $LOGDIR:/var/log/nginx:rw \
-    --network=wab-network \
-    --env "LETSENCRYPT_HOST=$WAB_DOMAIN" \
-    --env "LETSENCRYPT_EMAIL=rob@wearebeautiful.info" \
-    --env "VIRTUAL_HOST=$WAB_DOMAIN" \
-    wearebeautiful.info:prod
+  comp:
+    build: .
+    expose:
+      - "8080"
+    volumes:
+      - hb-cache-volume:/cache \
+      - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
+      - /home/hb/hiddenbeauty-web/web/admin/nginx/hb-comp.conf:/etc/nginx/nginx.conf:rw
+    environment:
+      - VIRTUAL_HOST=hiddenbeauty.ch
+      - LETSENCRYPT_HOST=hiddenbeauty.ch
+      - LETSENCRYPT_EMAIL=mayhem@gmail.com
 
-#   Use this CMD to get a full debug log
-#    wearebeautiful.info:prod nginx-debug -g 'daemon off;'
-
-echo "---- create kits"
-docker exec -it wab-web python3 make_kits.py
+networks:
+  default:
+    name: nginx-proxy
+    external: true

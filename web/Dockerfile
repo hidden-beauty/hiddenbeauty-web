@@ -39,6 +39,7 @@ WORKDIR /code/hiddenbeauty/static
 RUN rm -rf js gcss && \
     mkdir js gcss && \
     cd js && \
+    npm init --yes && \
     npm install && \
     npm i -g sass@1.26.3 && \
     npm i bootstrap@4.4.1 jquery@3.5.0 popper.js@^1.16.0
