@@ -15,7 +15,7 @@ services:
     volumes:
       - /home/hb/hiddenbeauty-models:/hiddenbeauty-models
       - /home/hb/kits:/kits
-      - /home/hb/hiddenbeauty-web/web/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
+      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
     environment:
       - VIRTUAL_HOST=hiddenbeauty.ch
       - LETSENCRYPT_HOST=hiddenbeauty.ch
@@ -29,7 +29,7 @@ services:
     volumes:
       - hb-cache-volume:/cache \
       - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
-      - /home/hb/hiddenbeauty-web/web/admin/nginx/hb-comp.conf:/etc/nginx/nginx.conf:rw
+      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/nginx/hb-comp.conf:/etc/nginx/nginx.conf:rw
     environment:
       - VIRTUAL_HOST=hiddenbeauty.ch
       - LETSENCRYPT_HOST=hiddenbeauty.ch
