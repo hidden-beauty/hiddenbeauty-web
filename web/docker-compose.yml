@@ -13,7 +13,7 @@ services:
     expose:
       - "3031"
     volumes:
-      - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
+      - /home/hb/hiddenbeauty-models:/hiddenbeauty-models
       - /home/hb/kits:/kits
       - /home/hb/hiddenbeauty-web/web/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
     environment:
