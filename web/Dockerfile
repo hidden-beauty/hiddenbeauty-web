@@ -34,6 +34,7 @@ RUN apt-get purge -y build-essential && \
 
 WORKDIR /code/hiddenbeauty
 COPY . /code/hiddenbeauty
+RUN cd web && cp config.py.sample config.py
 
 WORKDIR /code/hiddenbeauty/static
 RUN rm -rf js gcss && \
