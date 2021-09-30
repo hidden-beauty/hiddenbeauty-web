@@ -5,7 +5,7 @@ MODEL_DIR = "/hiddenbeauty-models"
 KIT_DIR = "/kits"
 
 # Options
-SUBMIT_SCREENSHOTS = True
+SUBMIT_SCREENSHOTS = False
 
 # 
 # Production Settings -- leave on defaults for dev setup.
