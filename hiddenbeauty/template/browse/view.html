@@ -294,7 +294,7 @@
                              The link to this screenshot:</br>
                              <input type="text"
                                     readonly
-                                    value="https://hiddenbeauty.ch{{ url_for_tagged_screenshot_m(model) }}"
+                                    value="https://hiddenbeauty.ch{{ url_for_screenshot_m(model, False, True) }}"
                                     id="copy-screenshot-url-input"
                                     style="width: 90%"
                              >
@@ -339,7 +339,7 @@
                       </div>
                       <div class="col-md-5">
                         <p class="text-center">
-                           <img class="screenshot" src="{{ url_for_tagged_screenshot_m(model) }}">
+                           <img class="screenshot" src="{{ url_for_screenshot_m(model, False, True) }}">
                         </p>
                       </div>
                    </div>
@@ -352,7 +352,7 @@
                {% for m in related.models %}
                  <div class="col-4 text-center">
                      <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
-                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}"><img src="{{ url_for_screenshot_m(m) }}" class="screenshot"></a>
+                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}"><img src="{{ url_for_screenshot_m(m, False, False) }}" class="screenshot"></a>
                  </div>
                {% endfor %}
             </div>

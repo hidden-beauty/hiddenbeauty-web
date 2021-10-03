@@ -121,7 +121,7 @@ class DBModel(Model):
             'given_birth' : self.given_birth,
             'display_code' : self.display_code,
             'english_description' : self.threed_model_description(),
-            'screenshot_url' : url_for_screenshot(self.model_id, self.code, self.version)
+            'screenshot_url' : url_for_screenshot(self.model_id, self.code, self.version, False, False)
         }
 
 

@@ -5,19 +5,24 @@
 
 {% macro screenshot_js() -%}
 <script>
+var states = {};
 var swf = true;
+var initial_swf = swf;
+
 $( document ).ready(function() {
     $('body').on('click','img',img_click);
 });
 function img_click(evt) {  
     id = evt.target.id;
     if (id.startsWith("screenshot-")) {
-        console.log("toggle " + id);
-        swf = !swf;
+        if (!(id in states)) {
+            states[id] = initial_swf;
+        }
+
+        states[id] = !states[id]
 
         data = id.split("-")
-        url = make_url(data[1], data[2], data[3], swf, data[4] == 'True');
-        console.log(url);
+        url = make_url(data[1], data[2], data[3], states[id], data[4] == 'True');
         $("#" + id).attr("src", url);
     };
 }

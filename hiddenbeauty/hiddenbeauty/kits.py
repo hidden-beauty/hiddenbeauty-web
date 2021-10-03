@@ -84,8 +84,8 @@ def load_kit_list():
             m['model'] = model
             m['code'] = code
             m['version'] = version
-            m['screenshot'] = url_for_screenshot(id, code, int(version), False)
-            m['tagged_screenshot'] = url_for_tagged_screenshot(id, code, int(version), True)
+            m['screenshot'] = url_for_screenshot(id, code, int(version), False, False)
+            m['tagged_screenshot'] = url_for_screenshot(id, code, int(version), False, True)
             m['body_part'] = BODY_PART[code[0]]
             m['pose'] = POSE[code[1]]
             m['arrangement'] = ARRANGEMENT[code[2]]
