@@ -49,8 +49,6 @@ app.register_blueprint(exhibit_bp, url_prefix='/exhibit')
 app.jinja_env.globals.update(static_url=utils.static_url)
 app.jinja_env.globals.update(url_for_screenshot=utils.url_for_screenshot)
 app.jinja_env.globals.update(url_for_screenshot_m=utils.url_for_screenshot_m)
-app.jinja_env.globals.update(url_for_tagged_screenshot=utils.url_for_tagged_screenshot)
-app.jinja_env.globals.update(url_for_tagged_screenshot_m=utils.url_for_tagged_screenshot_m)
 
 @app.errorhandler(404)
 def page_not_found(message):

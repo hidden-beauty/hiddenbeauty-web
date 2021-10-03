@@ -5,7 +5,7 @@ import subprocess
 from tempfile import mkdtemp
 import zipfile
 from hiddenbeauty.db_model import DBModel
-from hiddenbeauty.utils import url_for_tagged_screenshot, url_for_screenshot
+from hiddenbeauty.utils import url_for_screenshot
 from hiddenbeauty.model_code_info import BODY_PART, EXCITED, ARRANGEMENT, POSE
 import config
 
@@ -84,8 +84,8 @@ def load_kit_list():
             m['model'] = model
             m['code'] = code
             m['version'] = version
-            m['screenshot'] = url_for_screenshot(id, code, int(version))
-            m['tagged_screenshot'] = url_for_tagged_screenshot(id, code, int(version))
+            m['screenshot'] = url_for_screenshot(id, code, int(version), False)
+            m['tagged_screenshot'] = url_for_tagged_screenshot(id, code, int(version), True)
             m['body_part'] = BODY_PART[code[0]]
             m['pose'] = POSE[code[1]]
             m['arrangement'] = ARRANGEMENT[code[2]]

@@ -30,7 +30,7 @@ def load_slide_models(slide_model_ids):
 
         slide_models.append({
             "desc" : "%s model %s" % (m.body_part, m.display_code),
-            "screenshot" : url_for_screenshot_m(m),
+            "screenshot" : url_for_screenshot_m(m, True, False),
             "link" : "/model/" + m.display_code
         })
 
