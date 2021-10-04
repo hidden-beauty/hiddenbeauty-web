@@ -193,11 +193,6 @@
                          </td>
                        </tr>
                      </table>
-                     <p class="mt-4">
-                       If you use our models in a derivative artwork or print them using materials other than plastic, we'd love
-                       for you to <a href="/contact">mail us a picture</a>. Or perhaps even send us a unique print? We'd love to collect 
-                       our models printed using materials other than plastic!
-                     </p>
                      <div class="row" style="margin-top: 2rem">
                        <div class="col-sm-6">
                          <h4>Order a 3D print of this model</h4>
@@ -387,6 +382,7 @@
         var record_drag = false;
         var record_x = 0;
         var record_y = 0;
+        var zones = [];
         var window_height = 0, window_width = 0;
         var med_low_resolution_breakpoint = 992;
         var rotate_speed = 3.0;
@@ -468,12 +464,26 @@
                 $("#record-selection").offset({ left: x1, top: y1 });
             }
         });
-        $("#record-overlay").mouseup(function() {
+        $("#record-overlay").mouseup(function(evt) {
             record_drag = false; 
             $("#record-selection").toggleClass("d-none");
             $("#record-selection").width(0);
             $("#record-selection").height(0);
             $("#record-selection").offset({ left: 0, top: 0 });
+
+            var width = $("#record-overlay").width();
+            var height = $("#record-overlay").height();
+            var offset = $("#record-overlay").parent().offset();
+
+            var finish_x = evt.pageX - offset.left;
+            var finish_y = evt.pageY - offset.top;
+
+            var x1 = Math.min(record_x,finish_x) / width;
+            var x2 = Math.max(record_x,finish_x) / width;
+            var y1 = Math.min(record_y,finish_y) / height;
+            var y2 = Math.max(record_y,finish_y) / height;
+
+            zones.push(x1 + "," + y1 + "," + x2 + "," + y2)
         });
 
         $('#copy-page-url-button').on('click', function() { copy_page_url() });
@@ -707,10 +717,13 @@
         function screenshot() {
                 var mime = "image/jpeg";
                 var img_data = renderer.domElement.toDataURL(mime);
+                var url =  "{{ base_url }}/model/{{ model.model_id }}-{{ model.code }}-{{ model.version }}/screenshot?zones="
 
+                url += zones.join(" ");
+                console.log(url);
                 $.ajax({
                   type: "POST",
-                  url: "{{ base_url }}/model/{{ model.model_id }}-{{ model.code }}-{{ model.version }}/screenshot",
+                  url: url,
                   data: img_data
                 });
          }
