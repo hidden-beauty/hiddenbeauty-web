@@ -22,6 +22,13 @@
              <div class="color-well rounded d-inline-flex color-well-2" id="color-well-2"></div>
              <div class="color-well rounded d-inline-flex color-well-3" id="color-well-3"></div>
           </div>
+          {% if screenshot %}
+            <div id="record-overlay" class="d-none">
+                <div id="record-selection" class="d-none">
+                </div>
+            </div>
+
+          {% endif %}
         </div>
 
         <div id="model"></div>
@@ -29,6 +36,7 @@
         {% if screenshot %}
            <div style="margin-top: 10px">
                <button type="button" class="btn btn-warning" id="screenshot">Take screenshot</button>
+               <button type="button" class="btn btn-warning" id="record-mode">Record blur zones</button>
            </div>
         {% endif %}
 
@@ -375,6 +383,10 @@
        	var container, mesh = null;
        	var camera, scene, renderer, controls;
         var focus_mode = false;
+        var record_mode = false;
+        var record_drag = false;
+        var record_x = 0;
+        var record_y = 0;
         var window_height = 0, window_width = 0;
         var med_low_resolution_breakpoint = 992;
         var rotate_speed = 3.0;
@@ -423,7 +435,47 @@
         $('#color-well-1').on('click', function() { color_well_click("#color-well-1") });
         $('#color-well-2').on('click', function() { color_well_click("#color-well-2") });
         $('#color-well-3').on('click', function() { color_well_click("#color-well-3") });
+
         $('#screenshot').on('click', function() { screenshot() });
+        $('#record-mode').on('click', function() { toggle_blur_recording() });
+        $("#record-overlay").mousedown(function(evt) { 
+            record_drag = true;
+            $("#record-selection").toggleClass("d-none");
+            var offset = $("#record-overlay").parent().offset();
+            record_x = evt.pageX - offset.left;
+            record_y = evt.pageY - offset.top;
+        });
+        $("#record-overlay").mousemove(function(evt) { 
+            if (record_drag) {
+                var offset = $("#record-overlay").parent().offset();
+                var width = $("#record-overlay").width();
+                var height = $("#record-overlay").height();
+
+                var x = evt.pageX - offset.left;
+                var y = evt.pageY - offset.top;
+
+                var x1 = Math.min(record_x,x);
+                var x2 = Math.max(record_x,x);
+                var y1 = Math.min(record_y,y);
+                var y2 = Math.max(record_y,y);
+
+                $("#record-selection").width(Math.floor(x2 - x1));
+                $("#record-selection").height(Math.floor(y2 - y1));
+                x1 = Math.floor(x1 + offset.left);
+                y1 = Math.floor(y1 + offset.top);
+                x2 = Math.floor(x2 - offset.left);
+                y2 = Math.floor(y2 - offset.top);
+                $("#record-selection").offset({ left: x1, top: y1 });
+            }
+        });
+        $("#record-overlay").mouseup(function() {
+            record_drag = false; 
+            $("#record-selection").toggleClass("d-none");
+            $("#record-selection").width(0);
+            $("#record-selection").height(0);
+            $("#record-selection").offset({ left: 0, top: 0 });
+        });
+
         $('#copy-page-url-button').on('click', function() { copy_page_url() });
         $('#copy-screenshot-url-button').on('click', function() { copy_screenshot_url() });
         $("#upload-model").on('click', upload_model_to_craftcloud);
@@ -639,6 +691,18 @@
                 controls.update();
        		renderer.render( scene, camera );
        	}
+
+        function toggle_blur_recording() {
+                record_mode = !record_mode;
+                if (record_mode) {
+                    console.log("enter record mode");
+                    $("#record-mode").html("Stop recording")
+                } else {
+                    $("#record-mode").html("Record more blur zones")
+                    console.log("leave record mode");
+                }
+                $("#record-overlay").toggleClass("d-none")
+        }
 
         function screenshot() {
                 var mime = "image/jpeg";
