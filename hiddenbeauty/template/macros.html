@@ -1,6 +1,8 @@
-{% macro screenshot(id, code, version, tagged) -%}
+{% macro screenshot(id, code, version=1, tagged=False, class="", style="") -%}
 <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string + "-" + tagged|string }}"
-     src="{{ url_for_screenshot(id, code, version, True, tagged) }}">
+     src="{{ url_for_screenshot(id, code, version, True, tagged) }}"
+     class="{{ class }}"
+     style="{{ style }}">
 {% endmacro %}
 
 {% macro screenshot_js() -%}

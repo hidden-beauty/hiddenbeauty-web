@@ -1,4 +1,6 @@
 {%- extends 'base.html' -%}
+{% from "macros.html" import screenshot without context %}
+{% from "macros.html" import screenshot_js without context %}
 {%- block content -%}
   <div class="row">
     <div class="col-12 browse-layout">
@@ -61,7 +63,6 @@
 
     function tag_clicked(event) {
         id = event.currentTarget.id
-        console.log(id);
         type = id[0];
         index = parseInt(id.substr(2))
         $("#" + id).toggleClass("btn-outline-dark");
@@ -77,7 +78,6 @@
             var type = id[0];
             if (!type)
                 return
-            console.log(id);
             if ($("#" + id).hasClass("btn-dark") && id[0] == 'e') {
                 index = parseInt(id.substr(2));
                 for(i = 0; i < events_list[index].length; i++)
@@ -134,8 +134,15 @@
                     </div>
                   </div> 
                   <div class="col-md-4 text-center"> 
-                    <a href="/model/${ model.display_code }"><img style="max-width: 75%" src="${ model.screenshot_url }"/></a>
-                  </div>
+                    <a href="/model/${ model.display_code }">`;
+            col += '<img src="/model/m/' + model.model_id + '/' + model.code + '/' +
+                        model.model_id + '-' + model.code + '-' + model.version + '-screenshot';
+            if (1)
+            {
+                col += '-sfw';
+            }
+            col += '.jpg" style="max-width: 75%">'
+            col += `</div>
                 </div>`;
 
             if (m % 2 == 0)
@@ -145,8 +152,9 @@
         }
 
         $("#results").append(results);
-        $('#results button').on('click', preview_clicked);
+//        $('#results button').on('click', preview_clicked);
     }
 
 </script>
+{{ screenshot_js() }}
 {% endblock %}

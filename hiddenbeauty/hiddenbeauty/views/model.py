@@ -46,7 +46,10 @@ def send_model(filename):
 
 
     if not filename.endswith(".stl"):
-        return send_file(os.path.join(current_app.config['MODEL_DIR'], filename))
+        try:
+            return send_file(os.path.join(current_app.config['MODEL_DIR'], filename))
+        except FileNotFoundError:
+            raise NotFound
 
     gz_filename = os.path.join(current_app.config['MODEL_DIR'], filename + ".gz")
     try:

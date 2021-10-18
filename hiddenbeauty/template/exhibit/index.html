@@ -1,4 +1,6 @@
 {%- extends 'base.html' -%}
+{% from "macros.html" import screenshot without context %}
+{% from "macros.html" import screenshot_js without context %}
 {%- block content -%}
   <div class="row">
     <div class="col-12 browse-layout">
@@ -32,7 +34,7 @@
               {% for model in kit.models[:4] %}
                 <div class="col-sm-3 text-center">
                   <a href="/model/{{ model.model }}">
-                    <img src="{{ model.screenshot }}" class="exhibit-screenshot">   
+                    {{ screenshot(model.id, model.code, model.version, False, "exhibit-screenshot") }}
                   </a>
                 </div>
               {% endfor %}
@@ -61,3 +63,6 @@
     </div>
   </div>
 {% endblock%}
+{% block scripts %}
+{{ screenshot_js() }}
+{% endblock %}
