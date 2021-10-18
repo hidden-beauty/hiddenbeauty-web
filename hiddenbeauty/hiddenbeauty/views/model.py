@@ -159,7 +159,8 @@ def model_screenshot_post(id, code, version):
     zones = request.args.get("zones", "").split(";")
     parsed = []
     for zone in zones:
-        print(zone)
+        if not zone:
+            continue
         tmp = [ float(z) for z in zone.split(",")]
         tmp = { "x": int(tmp[0] * image_size_x), 
                 "y": int(tmp[1] * image_size_y), 
@@ -171,7 +172,6 @@ def model_screenshot_post(id, code, version):
         tmp["sh"] = int((tmp["h"] + (tmp["h"] / pixelated_size)) / pixelated_size)
 
         parsed.append(tmp)
-        print(tmp)
     zones = parsed
 
     fh, tmp_img = tempfile.mkstemp()
@@ -188,7 +188,6 @@ def model_screenshot_post(id, code, version):
     with open(tmp_img, "wb") as f:
         f.write(data)
 
-    # TODO: Improve error handling here
     try:
         run(['convert',  
             tmp_img,
@@ -238,9 +237,6 @@ def model_screenshot_post(id, code, version):
         os.unlink(tmp_img2)
     except CalledProcessError as err:
         print(err.output)
-
-    # How to pixelate a region
-    # convert 694420-PLNN-1-screenshot.jpg  -region 200x200+400+400 -scale 3% -scale 3000% +region out.jpg && xopen out.jpg
 
     # Make a pixelated version
     with Image.open(fn) as im:
