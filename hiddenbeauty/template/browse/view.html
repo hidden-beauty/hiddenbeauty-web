@@ -719,7 +719,7 @@
                 var img_data = renderer.domElement.toDataURL(mime);
                 var url =  "{{ base_url }}/model/{{ model.model_id }}-{{ model.code }}-{{ model.version }}/screenshot?zones="
 
-                url += zones.join(" ");
+                url += zones.join(";");
                 console.log(url);
                 $.ajax({
                   type: "POST",

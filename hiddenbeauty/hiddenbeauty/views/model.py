@@ -4,6 +4,7 @@ import gzip
 import os
 import random
 import requests
+import shutil
 from subprocess import run, CalledProcessError
 import tempfile
 import urllib
@@ -151,6 +152,28 @@ def model_screenshot_post(id, code, version):
     if not config.SUBMIT_SCREENSHOTS:
         raise NotFound()
 
+    image_size_x = 800
+    image_size_y = 800
+    pixelated_size = 30 
+
+    zones = request.args.get("zones", "").split(";")
+    parsed = []
+    for zone in zones:
+        print(zone)
+        tmp = [ float(z) for z in zone.split(",")]
+        tmp = { "x": int(tmp[0] * image_size_x), 
+                "y": int(tmp[1] * image_size_y), 
+                "x2": int(tmp[2] * image_size_x), 
+                "y2": int(tmp[3] * image_size_y) }
+        tmp["w"] = tmp["x2"]-tmp["x"]
+        tmp["h"] = tmp["y2"]-tmp["y"]
+        tmp["sw"] = (tmp["w"] + (tmp["w"] / pixelated_size)) // pixelated_size 
+        tmp["sh"] = (tmp["h"] + (tmp["h"] / pixelated_size)) // pixelated_size 
+
+        parsed.append(tmp)
+        print(tmp)
+    zones = parsed
+
     fh, tmp_img = tempfile.mkstemp()
     os.close(fh)
 
@@ -159,6 +182,7 @@ def model_screenshot_post(id, code, version):
 
     fn = os.path.join(config.MODEL_DIR, id, code, "%s-%s-%d-screenshot.jpg" % (id, code, version))
     tagged = os.path.join(config.MODEL_DIR, id, code, "%s-%s-%d-screenshot-tagged.jpg" % (id, code, version))
+    sfw = os.path.join(config.MODEL_DIR, id, code, "%s-%s-%d-screenshot-sfw.jpg" % (id, code, version))
 
     data = base64.b64decode(request.get_data()[23:])
     with open(tmp_img, "wb") as f:
@@ -168,11 +192,13 @@ def model_screenshot_post(id, code, version):
     try:
         run(['convert',  
             tmp_img,
-            "-resize", "800x800",
+            "-resize", "%dx%d" % (image_size_x, image_size_y),
             fn], check=True)
     except CalledProcessError as err:
         print(err.output)
 
+
+    # Make the tagged image
     if version > 1:
         model_code = "%s-%s-%s" % (id, code, version)
     else:
@@ -212,6 +238,30 @@ def model_screenshot_post(id, code, version):
         os.unlink(tmp_img2)
     except CalledProcessError as err:
         print(err.output)
+
+    # How to pixelate a region
+    # convert 694420-PLNN-1-screenshot.jpg  -region 200x200+400+400 -scale 3% -scale 3000% +region out.jpg && xopen out.jpg
+
+    shutil.copy(fn, sfw)
+    # Make a pixelated version
+    for zone in zones:
+        try:
+            rn = (['convert',  
+                sfw,
+                "-region", "%dx%d+%d+%d" % (zone["w"], zone["h"], zone["x"], zone["h"]),
+                "-scale", "%dx%d" % (zone["sw"], zone["sh"]),
+                "-scale", "%dx%d" % (zone["w"], zone["h"]),
+#                "-scale", "%dx%d+%d+%d" % (zone["sw"], zone["sh"], zone["x"], zone["y"]),
+#                "-scale", "%dx%d+%d+%d" % (zone["w"], zone["h"], zone["x"], zone["y"]),
+                "+region",
+                "-fill", "black", "-draw", 'rectangle %d,%d %d,%d' % (zone["x"], zone["y"], zone["x2"], zone["y2"]),
+                tmp_img])
+            print(rn)
+            run(rn, check=True)
+            os.unlink(sfw)
+            shutil.copy(tmp_img, sfw)
+        except CalledProcessError as err:
+            print(err.output)
 
     return ""
 
