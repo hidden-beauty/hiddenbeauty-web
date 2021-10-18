@@ -167,8 +167,8 @@ def model_screenshot_post(id, code, version):
                 "y2": int(tmp[3] * image_size_y) }
         tmp["w"] = tmp["x2"]-tmp["x"]
         tmp["h"] = tmp["y2"]-tmp["y"]
-        tmp["sw"] = (tmp["w"] + (tmp["w"] / pixelated_size)) // pixelated_size 
-        tmp["sh"] = (tmp["h"] + (tmp["h"] / pixelated_size)) // pixelated_size 
+        tmp["sw"] = int((tmp["w"] + (tmp["w"] / pixelated_size)) / pixelated_size)
+        tmp["sh"] = int((tmp["h"] + (tmp["h"] / pixelated_size)) / pixelated_size)
 
         parsed.append(tmp)
         print(tmp)
@@ -242,26 +242,15 @@ def model_screenshot_post(id, code, version):
     # How to pixelate a region
     # convert 694420-PLNN-1-screenshot.jpg  -region 200x200+400+400 -scale 3% -scale 3000% +region out.jpg && xopen out.jpg
 
-    shutil.copy(fn, sfw)
     # Make a pixelated version
-    for zone in zones:
-        try:
-            rn = (['convert',  
-                sfw,
-                "-region", "%dx%d+%d+%d" % (zone["w"], zone["h"], zone["x"], zone["h"]),
-                "-scale", "%dx%d" % (zone["sw"], zone["sh"]),
-                "-scale", "%dx%d" % (zone["w"], zone["h"]),
-#                "-scale", "%dx%d+%d+%d" % (zone["sw"], zone["sh"], zone["x"], zone["y"]),
-#                "-scale", "%dx%d+%d+%d" % (zone["w"], zone["h"], zone["x"], zone["y"]),
-                "+region",
-                "-fill", "black", "-draw", 'rectangle %d,%d %d,%d' % (zone["x"], zone["y"], zone["x2"], zone["y2"]),
-                tmp_img])
-            print(rn)
-            run(rn, check=True)
-            os.unlink(sfw)
-            shutil.copy(tmp_img, sfw)
-        except CalledProcessError as err:
-            print(err.output)
+    with Image.open(fn) as im:
+        for zone in zones:
+            box = (zone["x"], zone["y"], zone["x2"], zone["y2"])
+            region = im.crop(box)
+            region = region.resize((zone["sw"],zone["sh"]), Image.NEAREST)
+            region = region.resize((zone["w"],zone["h"]), Image.NEAREST)
+            im.paste(region, box)
+        im.save(sfw)
 
     return ""
 
