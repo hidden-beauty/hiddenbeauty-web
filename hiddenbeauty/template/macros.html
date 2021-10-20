@@ -9,7 +9,7 @@
     <div id="image-{{ id|string + "-" + code + "-" + version|string }}" class="nsfw-button-overlay">
        <button type="button"
                id="{{ id|string + "-" + code + "-" + version|string }}"
-               class="img-button btn btn-danger {{ btn_class }}">NSFW</button>
+               class="img-button btn btn-outline-danger {{ btn_class }}">unblur</button>
     </div>
 </div>
 {% endmacro %}
@@ -35,8 +35,19 @@ function img_click(evt) {
 
     data = id.split("-")
     url = make_url(data[0], data[1], data[2], states[id], data[3] == 'True');
+    if (states[id])
+    {
+        $("#" + id).text("unblur");
+        $("#" + id).toggleClass("btn-outline-success");
+        $("#" + id).toggleClass("btn-outline-danger");
+    }
+    else
+    {
+        $("#" + id).text("blur");
+        $("#" + id).toggleClass("btn-outline-success");
+        $("#" + id).toggleClass("btn-outline-danger");
+    }
 
-    console.log("#screenshot-" + id);
     $("#screenshot-" + id).attr("src", url);
 }
 function make_url(id, code, version, sfw, tagged) {
