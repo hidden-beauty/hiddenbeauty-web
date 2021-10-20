@@ -216,6 +216,13 @@ h2 {
     padding: 2px 4px 2px 4px;
 }
 
+.nsfw-button-overlay {
+    position: absolute;
+    z-index: 1;
+    left: 15px;
+    top: 15px;
+}
+
 .focus-button {
     color: #333;
 }

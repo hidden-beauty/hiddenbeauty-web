@@ -1,8 +1,17 @@
-{% macro screenshot(id, code, version=1, tagged=False, class="", style="") -%}
-<img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string + "-" + tagged|string }}"
-     src="{{ url_for_screenshot(id, code, version, True, tagged) }}"
-     class="{{ class }}"
-     style="{{ style }}">
+{% macro screenshot(id, code, version=1, tagged=False, class="", btn_class="") -%}
+<div style="position: relative">
+    <a href="/model/{{ id|string + "-" + code + "-" + version|string }}">
+      <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string }}"
+           src="{{ url_for_screenshot(id, code, version, True, tagged) }}"
+           class="{{ class }}"
+           style="{{ style }}">
+    </a>
+    <div id="image-{{ id|string + "-" + code + "-" + version|string }}" class="nsfw-button-overlay">
+       <button type="button"
+               id="{{ id|string + "-" + code + "-" + version|string }}"
+               class="img-button btn btn-danger {{ btn_class }}">NSFW</button>
+    </div>
+</div>
 {% endmacro %}
 
 {% macro screenshot_js() -%}
@@ -12,21 +21,23 @@ var swf = true;
 var initial_swf = swf;
 
 $( document ).ready(function() {
-    $('body').on('click','img',img_click);
+    $('.img-button').each(function(i, obj) {
+        $("#" + this.id).on('click', img_click);
+    });
 });
 function img_click(evt) {  
     id = evt.target.id;
-    if (id.startsWith("screenshot-")) {
-        if (!(id in states)) {
-            states[id] = initial_swf;
-        }
+    if (!(id in states)) {
+        states[id] = initial_swf;
+    }
 
-        states[id] = !states[id]
+    states[id] = !states[id]
 
-        data = id.split("-")
-        url = make_url(data[1], data[2], data[3], states[id], data[4] == 'True');
-        $("#" + id).attr("src", url);
-    };
+    data = id.split("-")
+    url = make_url(data[0], data[1], data[2], states[id], data[3] == 'True');
+
+    console.log("#screenshot-" + id);
+    $("#screenshot-" + id).attr("src", url);
 }
 function make_url(id, code, version, sfw, tagged) {
     url = "/model/m/" + id.toString() +

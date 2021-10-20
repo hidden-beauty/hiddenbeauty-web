@@ -34,7 +34,7 @@
               {% for model in kit.models[:4] %}
                 <div class="col-sm-3 text-center">
                   <a href="/model/{{ model.model }}">
-                    {{ screenshot(model.id, model.code, model.version, False, "exhibit-screenshot") }}
+                    {{ screenshot(model.id, model.code, model.version, False, "exhibit-screenshot", "btn-sm") }}
                   </a>
                 </div>
               {% endfor %}
