@@ -11,6 +11,7 @@
     {% block styles %}
     <link rel="stylesheet" href="{{ static_url('gcss/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ static_url('css/hb.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ static_url('img/favicon-16x16.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ static_url('img/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ static_url('img/favicon-96x96.png') }}">
@@ -44,12 +45,43 @@
   {% block js %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js" integrity="sha256-0H3Nuz3aug3afVbUlsu12Puxva3CP4EhJtPExqs54Vg=" crossorigin="anonymous"></script>
   {% endblock %}
 
   {% block scripts %}
   {% endblock %}
 
+  <script>
+
+    var sfw = {{ g.sfw_js }};
+
+    $( document ).ready(function() {
+        console.log("ready!");
+        $('#blur-switch').change(blur_switch);
+        if (Cookies.get("sfw") == "0")
+        {
+            sfw = false;
+            $('#blur-switch').bootstrapToggle('off', true);
+        }
+    });
+
+    function blur_switch(evt) {
+        sfw = !sfw;
+        attrs = { expires: 7, sameSite: 'Strict', domain: "{{ domain }}" }
+        if (sfw)
+        {
+            console.log("remove cookie");
+            Cookies.remove("sfw", attrs);
+        }
+        else
+        {
+            console.log("set cookie");
+            Cookies.set("sfw", "0", attrs);
+        }
+    }
+  </script>
+
 </body>
 </html>
-

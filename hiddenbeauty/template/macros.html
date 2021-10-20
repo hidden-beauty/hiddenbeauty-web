@@ -2,7 +2,7 @@
 <div style="position: relative">
     <a href="/model/{{ id|string + "-" + code + "-" + version|string }}">
       <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string }}"
-           src="{{ url_for_screenshot(id, code, version, True, tagged) }}"
+           src="{{ url_for_screenshot(id, code, version, g.sfw, tagged) }}"
            class="{{ class }}"
            style="{{ style }}">
     </a>
@@ -17,14 +17,16 @@
 {% macro screenshot_js() -%}
 <script>
 var states = {};
-var swf = true;
+var swf = {{ g.sfw_js }};
 var initial_swf = swf;
 
 $( document ).ready(function() {
+    console.log(" macros ready!");
     $('.img-button').each(function(i, obj) {
         $("#" + this.id).on('click', img_click);
     });
 });
+
 function img_click(evt) {  
     id = evt.target.id;
     if (!(id in states)) {

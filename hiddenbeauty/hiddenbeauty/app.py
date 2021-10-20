@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from flask import Flask, render_template, flash, url_for, current_app, redirect
+from flask import Flask, render_template, flash, url_for, current_app, redirect, g, request
 from flask_static_digest import FlaskStaticDigest
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -49,6 +49,20 @@ app.register_blueprint(exhibit_bp, url_prefix='/exhibit')
 app.jinja_env.globals.update(static_url=utils.static_url)
 app.jinja_env.globals.update(url_for_screenshot=utils.url_for_screenshot)
 app.jinja_env.globals.update(url_for_screenshot_m=utils.url_for_screenshot_m)
+
+@app.before_request
+def before_request_func():
+    sfw = request.cookies.get('sfw')
+    if sfw == "0":
+        g.sfw = False
+        g.sfw_js = "false"
+    else:
+        g.sfw = True
+        g.sfw_js = "true"
+
+@app.context_processor
+def inject_domain():
+    return dict(domain=config.SITE_DOMAIN)
 
 @app.errorhandler(404)
 def page_not_found(message):
