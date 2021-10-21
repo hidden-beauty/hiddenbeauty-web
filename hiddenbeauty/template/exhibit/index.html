@@ -1,6 +1,5 @@
 {%- extends 'base.html' -%}
 {% from "macros.html" import screenshot without context %}
-{% from "macros.html" import screenshot_js without context %}
 {%- block content -%}
   <div class="row">
     <div class="col-12 browse-layout">
@@ -63,6 +62,3 @@
     </div>
   </div>
 {% endblock%}
-{% block scripts %}
-{{ screenshot_js() }}
-{% endblock %}

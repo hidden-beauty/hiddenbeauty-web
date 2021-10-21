@@ -9,64 +9,11 @@
     <div id="image-{{ id|string + "-" + code + "-" + version|string }}" class="nsfw-button-overlay">
        <button type="button"
                id="{{ id|string + "-" + code + "-" + version|string }}"
-               class="img-button btn btn-outline-danger {{ btn_class }}">unblur</button>
+               {% if g.sfw %}
+                 class="img-button btn btn-outline-danger {{ btn_class }}">unblur</button>
+               {% else %}
+                 class="img-button btn btn-outline-success {{ btn_class }}">blur</button>
+               {% endif %}
     </div>
 </div>
-{% endmacro %}
-
-{% macro screenshot_js() -%}
-<script>
-var states = {};
-var swf = {{ g.sfw_js }};
-var initial_swf = swf;
-
-$( document ).ready(function() {
-    console.log(" macros ready!");
-    $('.img-button').each(function(i, obj) {
-        $("#" + this.id).on('click', img_click);
-    });
-});
-
-function img_click(evt) {  
-    id = evt.target.id;
-    if (!(id in states)) {
-        states[id] = initial_swf;
-    }
-
-    states[id] = !states[id]
-
-    data = id.split("-")
-    url = make_url(data[0], data[1], data[2], states[id], data[3] == 'True');
-    if (states[id])
-    {
-        $("#" + id).text("unblur");
-        $("#" + id).toggleClass("btn-outline-success");
-        $("#" + id).toggleClass("btn-outline-danger");
-    }
-    else
-    {
-        $("#" + id).text("blur");
-        $("#" + id).toggleClass("btn-outline-success");
-        $("#" + id).toggleClass("btn-outline-danger");
-    }
-
-    $("#screenshot-" + id).attr("src", url);
-}
-function make_url(id, code, version, sfw, tagged) {
-    url = "/model/m/" + id.toString() +
-          "/" + code + 
-          "/" + id.toString() +
-          "-" + code +
-          "-" + version.toString() +
-          "-screenshot";
-    if (sfw) {
-        url += "-sfw";
-    }
-    if (tagged) {
-        url += "-tagged";
-    }
-    return url + ".jpg"
-}
-
-</script>
 {% endmacro %}

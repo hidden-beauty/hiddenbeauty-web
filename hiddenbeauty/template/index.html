@@ -74,7 +74,7 @@
 <script>
 $(document).ready(function() {
     var show_nav_bar = false;
-    $(document).scroll(function() {
+    $(document).click(function() {
         if (!show_nav_bar) {
             $("#navbar").toggleClass("invisible");
             $("#logo-div").slideUp(200);
@@ -84,5 +84,4 @@ $(document).ready(function() {
     });
 });
 </script>
-{{ screenshot_js() }}
 {% endblock %}

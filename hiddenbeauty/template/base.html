@@ -53,35 +53,90 @@
   {% block scripts %}
   {% endblock %}
 
-  <script>
+<script>
 
-    var sfw = {{ g.sfw_js }};
+var sfw = {{ g.sfw_js }};
+var states = {};
+var initial_sfw = sfw;
 
-    $( document ).ready(function() {
-        console.log("ready!");
-        $('#blur-switch').change(blur_switch);
-        if (Cookies.get("sfw") == "0")
-        {
-            sfw = false;
-            $('#blur-switch').bootstrapToggle('off', true);
-        }
-    });
-
-    function blur_switch(evt) {
-        sfw = !sfw;
-        attrs = { expires: 7, sameSite: 'Strict', domain: "{{ domain }}" }
-        if (sfw)
-        {
-            console.log("remove cookie");
-            Cookies.remove("sfw", attrs);
-        }
-        else
-        {
-            console.log("set cookie");
-            Cookies.set("sfw", "0", attrs);
-        }
+$( document ).ready(function() {
+    $('#blur-switch').change(blur_switch);
+    if (Cookies.get("sfw") == "0")
+    {
+        sfw = false;
+        $('#blur-switch').bootstrapToggle('off', true);
     }
-  </script>
+    $('.img-button').each(function(i, obj) {
+        $("#" + this.id).on('click', img_click);
+    });
+});
 
+function blur_switch(evt) {
+    sfw = !sfw;
+    attrs = { expires: 7, sameSite: 'Strict', domain: "{{ domain }}" }
+    if (sfw)
+    {
+        $('.img-button').each(function(i, obj) {
+            blur_image(this.id);
+        });
+        Cookies.remove("sfw", attrs);
+    }
+    else
+    {
+        $('.img-button').each(function(i, obj) {
+            unblur_image(this.id);
+        });
+        Cookies.set("sfw", "0", attrs);
+    }
+}
+
+function blur_image(id) {
+    $("#" + id).text("unblur");
+    $("#" + id).removeClass("btn-outline-success");
+    $("#" + id).addClass("btn-outline-danger");
+    data = id.split("-")
+    url = make_url(data[0], data[1], data[2], true, data[3] == 'True');
+    $("#screenshot-" + id).attr("src", url);
+}
+
+function unblur_image(id) {
+    $("#" + id).text("blur");
+    $("#" + id).addClass("btn-outline-success");
+    $("#" + id).removeClass("btn-outline-danger");
+    data = id.split("-")
+    url = make_url(data[0], data[1], data[2], false, data[3] == 'True');
+    $("#screenshot-" + id).attr("src", url);
+}
+
+function img_click(evt) {  
+    id = evt.target.id;
+    if (!(id in states)) {
+        states[id] = initial_sfw;
+    }
+
+    states[id] = !states[id]
+    if (states[id])
+        blur_image(id);
+    else
+        unblur_image(id);
+}
+
+function make_url(id, code, version, sfw, tagged) {
+    url = "/model/m/" + id.toString() +
+          "/" + code + 
+          "/" + id.toString() +
+          "-" + code +
+          "-" + version.toString() +
+          "-screenshot";
+    if (sfw) {
+        url += "-sfw";
+    }
+    if (tagged) {
+        url += "-tagged";
+    }
+    return url + ".jpg"
+}
+
+</script>
 </body>
 </html>
