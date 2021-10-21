@@ -1,87 +1,65 @@
 {%- extends 'base.html' -%}
-{% set navbar_hidden = True %}
 {% from "macros.html" import screenshot without context %}
-{% from "macros.html" import screenshot_js without context %}
 {%- block content -%}
 <div class="row">
+  <div class="col-md-12 index-text">
+    <h2 class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
 
-    <div class="col-12">
-      <div id="logo-div" class="text-center">
+    <div class="row">
+      <div class="col-6">
         <p>
-          <img class="index-logo" src="{{ static_url('img/hiddenbeauty.svg') }}">
+           Goals, plans, the whole lot. Talk about it. Here.
+        </p>
         <p>
-        <div class="tagline">
-          We Are Beautiful!
+           We have {{ model_count }} models and all of our models are between {{ min_age }} and {{ max_age}} years
+           old and span a wide range
+           of <a href="{{ url_for('docs.diversity') }}">ages, body types and countries of origin</a>. We've
+           carefully curated all the metadata of our models and are
+           releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
+           private information. We never reveal the identity of our models and this information does not exist online at all.
+        </p>
+        <p>
+           We suggest that you to start with our <a href="/exhibit">exhibits</a> for the best introduction to this site, or
+           browse our models online, download the 3D solids for printing or order a print online. You may also
+           download the surfaces and use them in your own 3D modeling projects.
+        </p>
+
+        <h4>Browse</h4>
+
+        <div class="ml-4">
+          <p>
+             <a href="{{ url_for('browse.by_part') }}">browse by body part</a>: All models organized by body part.
+          </p>
+          <p>
+             <a href="{{ url_for('browse.by_model') }}">browse by model</a>: All models organized by human model.
+          </p>
+          <p>
+             <a  href="{{ url_for('browse.by_attributes') }}">browse by attributes</a>: Browse models based on their attributes.
+          </p>
+          <p>
+             <a  href="{{ url_for('browse.by_date') }}">browse by date</a>: Browse models based on their creation date.
+          </p>
         </div>
       </div>
-      <h2 class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
-    </div>
-
-</div>
-<div class="row">
-  <div class="col-md-12 index-text">
-    <div class="row">
-      <div class="col-md-4" style="padding: 2em">
-       {{ screenshot(476551, "BSNN") }}
-       {{ screenshot(694420, "PLNN") }}
-       {{ screenshot(149357, "VSNN") }}
+      <div class="col-6">
+        <p>
+        <img style="max-width: 75%" src="/model/m/000000/HSNN/000000-HSNN-1-screenshot.jpg">
+        </p>
+        <p>
+          <a href="/model/476551-BSNN-1" style="font-size: 12pt;">Model 476551-BSNN</a>
+          {{ screenshot(476551, "BSNN", style="max-width: 75%") }}
+        </p>
+        <p>
+          <a href="/model/694420-PLNN-1" style="font-size: 12pt;">Model 694420-PLNN</a>
+          {{ screenshot(694420, "PLNN", style="max-width: 75%") }}
+        </p>
+        <p>
+          <a href="/model/191633-VLNN-1" style="font-size: 12pt;">Model 191644-VLNN</a>
+          {{ screenshot(191644, "VLNN", style="max-width: 75%") }}
+        </p>
       </div>
     </div>
-    <p>
-       [ New fancy Hidden Beauty intro here ]
-    </p>
-    <p>
-       We have {{ model_count }} models and all of our models are between {{ min_age }} and {{ max_age}} years
-       old and span a wide range
-       of <a href="{{ url_for('docs.diversity') }}">ages, body types and countries of origin</a>. We've
-       carefully curated all the metadata of our models and are
-       releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
-       private information. We never reveal the identity of our models and this information does not exist online at all.
-    </p>
-    <p>
-       We suggest that you to start with our <a href="/exhibit">exhibits</a> for the best introduction to this site, or
-       browse our models online, download the 3D solids for printing or order a print online. You may also
-       download the surfaces and use them in your own 3D modeling projects.
-    </p>
-
-    <h4>Browse</h4>
-
-    <div class="ml-4">
-      <p>
-         <a href="{{ url_for('browse.by_part') }}">browse by body part</a>: All models organized by body part.
-      </p>
-      <p>
-         <a href="{{ url_for('browse.by_model') }}">browse by model</a>: All models organized by human model.
-      </p>
-      <p>
-         <a  href="{{ url_for('browse.by_attributes') }}">browse by attributes</a>: Browse models based on their attributes.
-      </p>
-      <p>
-         <a  href="{{ url_for('browse.by_date') }}">browse by date</a>: Browse models based on their creation date.
-      </p>
-    </div>
-
-    <h4>Sample models</h4>
-
-    <p>TODO: Show three random models here</p>
-      
 
   </div>
 </div>
 {% endblock%}
-
-{% block scripts %}
-<script>
-$(document).ready(function() {
-    var show_nav_bar = false;
-    $(document).click(function() {
-        if (!show_nav_bar) {
-            $("#navbar").toggleClass("invisible");
-            $("#logo-div").slideUp(200);
-            $("#heading").slideDown(200);
-            show_nav_bar = true
-        }
-    });
-});
-</script>
-{% endblock %}
