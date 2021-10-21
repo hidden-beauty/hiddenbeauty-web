@@ -365,6 +365,26 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Show unblurred model?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Models cannot be viewed blurred, duh.
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="nsfw-no" class="btn btn-secondary">Go back</button>
+            <button type="button" id="nsfw-yes" class="btn btn-primary">Agree</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
 {% endblock%}
 
@@ -388,13 +408,28 @@
         var rotate_speed = 3.0;
 
         $(document).ready(function() {
+            if ({{ g.sfw_js }}) {
+                $("#model").addClass("invisible");
+                $('#modal').modal('show');
+            }
             init();
             animate();
             $(function () {
                 $('[data-toggle="popover"]').popover()
             })
             $("#footer").toggleClass("invisible");
+            $("#nsfw-no").click(nsfw_no);
+            $("#nsfw-yes").click(nsfw_yes);
         });
+
+        function nsfw_yes() {
+            $("#model").removeClass("invisible");
+            $('#modal').modal('hide');
+        }
+
+        function nsfw_no() {
+            history.back();
+        }
 
         document.body.onkeydown = function(e) {
             if (e.keyCode == 32){
@@ -661,7 +696,7 @@
                     controls.dampingFactor = 0.05;
                 }
 
-      		$("#model").append( renderer.domElement );
+     		$("#model").append( renderer.domElement );
 
        		window.addEventListener( 'resize', onWindowResize, false );
                 $("#distract-mode").toggleClass("d-none")

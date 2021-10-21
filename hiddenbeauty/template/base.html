@@ -80,6 +80,10 @@ function blur_switch(evt) {
             blur_image(this.id);
         });
         Cookies.remove("sfw", attrs);
+        url = new URL(window.location.href);
+        if (url.pathname.startsWith("/model")) {
+            window.location.href = "/";
+        }
     }
     else
     {
