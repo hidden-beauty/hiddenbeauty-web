@@ -137,7 +137,7 @@
                     <a href="/model/${ model.display_code }">`;
             col += '<img src="/model/m/' + model.model_id + '/' + model.code + '/' +
                         model.model_id + '-' + model.code + '-' + model.version + '-screenshot';
-            if (1)
+            if ({{ g.sfw_js }})
             {
                 col += '-sfw';
             }
