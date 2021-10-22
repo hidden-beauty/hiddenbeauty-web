@@ -134,8 +134,7 @@ h2 {
 }
 
 .screenshot {
-    width: 80%;
-    border-radius: 15px;
+    max-width: 75%;
 }
 
 .exhibit-screenshot {

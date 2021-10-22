@@ -352,15 +352,15 @@
           </div>
           {% if related.models %}
             <h4 style="padding-top: 25px; padding-left: 5px; padding-right: 5px">{{ related.desc }}</h4>
-            <div id="related" class="row">
-               {% for m in related.models %}
-                 <div class="col-4 text-center">
-                     <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
-                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}">
-                       {{ screenshot(m.model_id, m.code, m.version, False, class="screenshot") }}
-                     </a>
-                 </div>
-               {% endfor %}
+            <div class="d-inline-flex">
+              {% for m in related.models %}
+                <div class="text-center" style="margin: auto;">
+                    <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
+                    <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}">
+                      {{ screenshot(m.model_id, m.code, m.version, False, class="screenshot") }}
+                    </a>
+                </div>
+              {% endfor %}
             </div>
           {% endif %}
 
@@ -378,7 +378,8 @@
             </button>
           </div>
           <div class="modal-body">
-            Models cannot be viewed blurred, duh.
+            Models can only be viewed in the unblurred mode. Are you OK with seeing
+            real humans without filters?
           </div>
           <div class="modal-footer">
             <button type="button" id="nsfw-no" class="btn btn-secondary">Go back</button>
