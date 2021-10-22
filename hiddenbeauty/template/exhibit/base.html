@@ -1,4 +1,5 @@
 {%- extends 'base.html' -%}
+{% from "macros.html" import screenshot without context %}
 {%- block content -%}
   <div class="row">
     <div class="col-12 browse-layout">
@@ -48,7 +49,7 @@
             </div>
             <div class="col-sm-8 text-center">
                <a href="/model/{{ model.model }}">
-                 <img src="{{ model.screenshot }}" class="exhibit-screenshot">   
+                 {{ screenshot(model.id, model.code, model.version, class="exhibit-screenshot") }}
                </a>
             </div>
           </div>
