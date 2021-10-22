@@ -1,5 +1,6 @@
 {%- extends 'base.html' -%}
 {% set footer_hidden = True %}
+{% from "macros.html" import screenshot without context %}
 {%- block content -%}
 <div class="row" id="top-row">
 
@@ -22,7 +23,7 @@
              <div class="color-well rounded d-inline-flex color-well-2" id="color-well-2"></div>
              <div class="color-well rounded d-inline-flex color-well-3" id="color-well-3"></div>
           </div>
-          {% if screenshot %}
+          {% if take_screenshot %}
             <div id="record-overlay" class="d-none">
                 <div id="record-selection" class="d-none">
                 </div>
@@ -33,7 +34,7 @@
 
         <div id="model"></div>
 
-        {% if screenshot %}
+        {% if take_screenshot %}
            <div style="margin-top: 10px">
                <button type="button" class="btn btn-warning" id="screenshot">Take screenshot</button>
                <button type="button" class="btn btn-warning" id="record-mode">Record blur zones</button>
@@ -355,7 +356,9 @@
                {% for m in related.models %}
                  <div class="col-4 text-center">
                      <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
-                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}"><img src="{{ url_for_screenshot_m(m, False, False) }}" class="screenshot"></a>
+                     <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}">
+                       {{ screenshot(m.model_id, m.code, m.version, False, class="screenshot") }}
+                     </a>
                  </div>
                {% endfor %}
             </div>
@@ -455,7 +458,7 @@
         };
 
         function get_aspect_ratio() {
-            if ({{ screenshot }})
+            if ({{ take_screenshot }})
                 return 1.0;
             return window.innerHeight * .75 / window.innerWidth;
         }
@@ -467,7 +470,7 @@
         $('#color-well-2').on('click', function() { color_well_click("#color-well-2") });
         $('#color-well-3').on('click', function() { color_well_click("#color-well-3") });
 
-        $('#screenshot').on('click', function() { screenshot() });
+        $('#screenshot').on('click', function() { upload_screenshot() });
         $('#record-mode').on('click', function() { toggle_blur_recording() });
         $("#record-overlay").mousedown(function(evt) { 
             record_drag = true;
@@ -605,7 +608,7 @@
                 $("#model-overlay").toggleClass("d-none")
 
        		camera = new THREE.PerspectiveCamera( 35, window_width / window_height, 1, 15 );
-                if ({{ screenshot }}) {
+                if ({{ take_screenshot }}) {
                     scale_factor = .85;
                     camera.position.set( 0, .5, 3 );
                 } else {
@@ -652,7 +655,7 @@
 
        			scene.add( mesh );
 
-                        if ({{screenshot}}) {
+                        if ({{take_screenshot}}) {
                             $("#model").width(1024);
                             $("#model").height(1024);
                             onWindowResize();
@@ -679,7 +682,7 @@
 
        		// renderer
                 var flags = { antialias: true };
-                if ({{ screenshot }})
+                if ({{ take_screenshot }})
                     flags['preserveDrawingBuffer'] = true;
                 renderer = new THREE.WebGLRenderer(flags);
        		renderer.setPixelRatio( window.devicePixelRatio );
@@ -689,7 +692,7 @@
        		renderer.shadowMap.enabled = true;
 
                 controls = new OrbitControls( camera, renderer.domElement );
-                if (!{{ screenshot }}) {
+                if (!{{ take_screenshot }}) {
                     controls.autoRotateSpeed = rotate_speed;
                     controls.autoRotate = true;
                     controls.enableDamping = true;
@@ -749,7 +752,7 @@
                 $("#record-overlay").toggleClass("d-none")
         }
 
-        function screenshot() {
+        function upload_screenshot() {
                 var mime = "image/jpeg";
                 var img_data = renderer.domElement.toDataURL(mime);
                 var url =  "{{ base_url }}/model/{{ model.model_id }}-{{ model.code }}-{{ model.version }}/screenshot?zones="
