@@ -348,17 +348,17 @@
                       </div>
                    </div>
                 </div>
+              </div>
             </div>
           </div>
+
           {% if related.models %}
-            <h4 style="padding-top: 25px; padding-left: 5px; padding-right: 5px">{{ related.desc }}</h4>
-            <div class="d-inline-flex">
+            <h4 style="padding: 35px 5px 15px 5px;">{{ related.desc }}</h4>
+            <div class="d-flex d-flex justify-content-around">
               {% for m in related.models %}
-                <div class="text-center" style="margin: auto;">
+                <div class="w-100" style="margin: auto;">
                     <p style="margin-bottom: 1px"><a href="/model/{{ m.display_code }}">{{ m.display_code }}</a></p>
-                    <a href="/model/{{ m.model_id }}-{{ m.code }}-{{ m.version }}">
-                      {{ screenshot(m.model_id, m.code, m.version, False, class="screenshot") }}
-                    </a>
+                    {{ screenshot(m.model_id, m.code, m.version, False, style="width: 75%") }}
                 </div>
               {% endfor %}
             </div>
