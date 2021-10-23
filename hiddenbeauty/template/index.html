@@ -6,13 +6,21 @@
     <h2 class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
 
     <div class="row">
-      <div class="col-6">
+      <div class="col-7">
         <p>
-           Goals, plans, the whole lot. Talk about it. Here.
+           The Hidden Beauty project aims to allow people to view other humans and to show that We Are Beautiful.
+           The human body takes many shapes and forms and we should all be comfortable in our own bodies. Modern 
+           society puts an incredible amount of pressure on us to look a certain way. We are constantly bombarded
+           with images of attractive people and we start to think that we are somehow inadequate. 
         </p>
         <p>
-           We have {{ model_count }} models and all of our models are between {{ min_age }} and {{ max_age}} years
-           old and span a wide range
+           We are not inadequate; we're merely human and come in many lovely shapes and sizes. If you've ever
+           wonderer if you are <em>normal</em> or are curious about the human body, welcome to Hidden Beauty.
+           This site allows you to explore our models in great detail in the privacy of your own home.
+        </p>
+        <p>
+           We have {{ model_count }} intimate models that show off normal human bodies. All of our models are
+           volunteers between {{ min_age }} and {{ max_age}} years old and span a wide range
            of <a href="{{ url_for('docs.diversity') }}">ages, body types and countries of origin</a>. We've
            carefully curated all the metadata of our models and are
            releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
@@ -24,7 +32,9 @@
            download the surfaces and use them in your own 3D modeling projects.
         </p>
 
-        <h4>Browse</h4>
+        <p>
+          We have a number of ways to browse this site:
+        </p>
 
         <div class="ml-4">
           <p>
@@ -41,22 +51,18 @@
           </p>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-5">
         <p>
         <img style="max-width: 75%; border-radius: 15px;" src="/model/m/000000/HSNN/000000-HSNN-1-screenshot.jpg">
         </p>
-        <p>
-          <a href="/model/476551-BSNN-1" style="font-size: 12pt;">Model 476551-BSNN</a>
-          {{ screenshot(476551, "BSNN", style="max-width: 75%") }}
-        </p>
-        <p>
-          <a href="/model/694420-PLNN-1" style="font-size: 12pt;">Model 694420-PLNN</a>
-          {{ screenshot(694420, "PLNN", style="max-width: 75%") }}
-        </p>
-        <p>
-          <a href="/model/191633-VLNN-1" style="font-size: 12pt;">Model 191644-VLNN</a>
-          {{ screenshot(191644, "VLNN", style="max-width: 75%") }}
-        </p>
+        <a href="/model/476551-BSNN-1" style="font-size: 12pt; padding-bottom: 0px;">Model 476551-BSNN</a>
+        {{ screenshot(476551, "BSNN", style="max-width: 75%") }}
+
+        <a href="/model/694420-PLNN-1" style="font-size: 12pt;">Model 694420-PLNN</a>
+        {{ screenshot(694420, "PLNN", style="max-width: 75%") }}
+
+        <a href="/model/191633-VLNN-1" style="font-size: 12pt;">Model 191644-VLNN</a>
+        {{ screenshot(191644, "VLNN", style="max-width: 75%") }}
       </div>
     </div>
 
