@@ -1,18 +1,19 @@
 {% macro screenshot(id, code, version=1, tagged=False, class="", btn_class="", style="") -%}
 <div style="position: relative">
   <a href="/model/{{ id|string + "-" + code + "-" + version|string }}">
-    <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string }}"
-         src="{{ url_for_screenshot(id, code, version, g.sfw, tagged) }}"
-         class="{{ class }}"
-         style="position: relative; border-radius: 15px; {{ style }}">
-    <button type="button"
-      id="{{ id|string + "-" + code + "-" + version|string }}"
-      {% if g.sfw %}
-        class="nsfw-button-overlay img-button btn btn-outline-danger {{ btn_class }}">unblur
-      {% else %}
-        class="nsfw-button-overlay img-button btn btn-outline-success {{ btn_class }}">blur
-      {% endif %}
-     </button>
+  <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string }}"
+       src="{{ url_for_screenshot(id, code, version, g.sfw, tagged) }}"
+       class="{{ class }}"
+       style="position: relative; border-radius: 15px; {{ style }}">
   </a>
+  <button type="button"
+    id="{{ id|string + "-" + code + "-" + version|string }}"
+    style="font-weight: bold; border-radius: 15px; padding: 0px 5px 0px 5px"
+    {% if g.sfw %}
+      class="nsfw-button-overlay img-button btn btn-outline-danger {{ btn_class }}">unblur
+    {% else %}
+      class="nsfw-button-overlay img-button btn btn-outline-success {{ btn_class }}">blur
+    {% endif %}
+  </button>
 </div>
 {% endmacro %}
