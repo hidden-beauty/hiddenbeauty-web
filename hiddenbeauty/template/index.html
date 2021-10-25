@@ -6,18 +6,37 @@
     <h2 class="mb-4" id="heading">Welcome to Hidden Beauty!</h2>
 
     <div class="row">
-      <div class="col-7">
+      <div class="col-md-7">
         <p>
            The Hidden Beauty project aims to allow people to view other humans and to show that We Are Beautiful.
            The human body takes many shapes and forms and we should all be comfortable in our own bodies. Modern 
            society puts an incredible amount of pressure on us to look a certain way. We are constantly bombarded
            with images of attractive people and we start to think that we are somehow inadequate. 
         </p>
+      </div>
+      <div class="col-md-5 text-center">
+        <img style="width: 100%; border-radius: 15px;" src="/model/m/000000/HSNN/000000-HSNN-1-screenshot.jpg">
+        <a href="/model/000000-HSNN-1" style="font-size: 12pt; padding-bottom: 0px;">Model 000000-HSNN</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
         <p>
            We are not inadequate; we're merely human and come in many lovely shapes and sizes. If you've ever
            wonderer if you are <em>normal</em> or are curious about the human body, welcome to Hidden Beauty.
-           This site allows you to explore our models in great detail in the privacy of your own home.
+           This site allows you to explore our models in great detail in the privacy of your own home. You can download
+           any of these models and print them using a 3D printer or you can even have a print made for you.
         </p>
+      </div>
+      <div class="col-md-5 text-center">
+        {{ screenshot(476551, "BSNN") }}
+        <a href="/model/476551-BSNN-1" style="font-size: 12pt; padding-bottom: 0px;">Model 476551-BSNN</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
         <p>
            We have {{ model_count }} intimate models that show off normal human bodies. All of our models are
            volunteers between {{ min_age }} and {{ max_age}} years old and span a wide range
@@ -26,6 +45,15 @@
            releasing the public information while <a href="{{ url_for('index.privacy') }}">carefully protecting</a> the
            private information. We never reveal the identity of our models and this information does not exist online at all.
         </p>
+      </div>
+      <div class="col-md-5 text-center">
+        {{ screenshot(694420, "PLNN") }}
+        <a href="/model/694420-PLNN-1" style="font-size: 12pt;">Model 694420-PLNN</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
         <p>
            We suggest that you to start with our <a href="/exhibit">exhibits</a> for the best introduction to this site, or
            browse our models online, download the 3D solids for printing or order a print online. You may also
@@ -50,19 +78,11 @@
              <a  href="{{ url_for('browse.by_date') }}">browse by date</a>: Browse models based on their creation date.
           </p>
         </div>
+
       </div>
-      <div class="col-5">
-        <p>
-        <img style="max-width: 75%; border-radius: 15px;" src="/model/m/000000/HSNN/000000-HSNN-1-screenshot.jpg">
-        </p>
-        <a href="/model/476551-BSNN-1" style="font-size: 12pt; padding-bottom: 0px;">Model 476551-BSNN</a>
-        {{ screenshot(476551, "BSNN", style="max-width: 75%") }}
-
-        <a href="/model/694420-PLNN-1" style="font-size: 12pt;">Model 694420-PLNN</a>
-        {{ screenshot(694420, "PLNN", style="max-width: 75%") }}
-
+      <div class="col-md-5 text-center">
+        {{ screenshot(191644, "VLNN") }}
         <a href="/model/191633-VLNN-1" style="font-size: 12pt;">Model 191644-VLNN</a>
-        {{ screenshot(191644, "VLNN", style="max-width: 75%") }}
       </div>
     </div>
 

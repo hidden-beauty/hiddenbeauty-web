@@ -4,7 +4,7 @@
   <img id="{{ "screenshot-" + id|string + "-" + code + "-" + version|string }}"
        src="{{ url_for_screenshot(id, code, version, g.sfw, tagged) }}"
        class="{{ class }}"
-       style="position: relative; border-radius: 15px; {{ style }}">
+       style="position: relative; border-radius: 15px; width: 100%; {{ style }}">
   </a>
   <button type="button"
     id="{{ id|string + "-" + code + "-" + version|string }}"
