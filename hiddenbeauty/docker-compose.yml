@@ -35,6 +35,12 @@ services:
       - LETSENCRYPT_HOST=hiddenbeauty.ch
       - LETSENCRYPT_EMAIL=mayhem@gmail.com
 
+logging:
+    driver: gelf
+    options:
+        gelf-address: "udp://95.217.186.18:12401"
+        tag: hb
+
 networks:
   default:
     name: nginx-proxy
