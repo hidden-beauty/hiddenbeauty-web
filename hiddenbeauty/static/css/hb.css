@@ -25,6 +25,10 @@ h2 {
       padding-left: 2rem;
   }
 
+  .index-text {
+      font-size: 14pt;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -39,6 +43,10 @@ h2 {
       padding-left: 4rem;
   }
 
+  .index-text {
+      font-size: 16pt;
+  }
+
 }
 
 @media (min-width: 992px) {
@@ -51,6 +59,10 @@ h2 {
   .browse-layout {
       padding-right: 6rem;
       padding-left: 6rem;
+  }
+
+  .index-text {
+      font-size: 18pt;
   }
 
 }
@@ -114,10 +126,6 @@ h2 {
 .guide-image {
     width: 100%;
     border-radius: 10px;
-}
-
-.index-text {
-    font-size: 16pt;
 }
 
 #nsfw-button {
