@@ -27,6 +27,7 @@ RUN mkdir -p /etc/nginx/html
 RUN mkdir -p /code/hiddenbeauty
 WORKDIR /code/hiddenbeauty
 COPY requirements.txt /code/hiddenbeauty
+COPY config.py.prod config.py
 RUN pip3 install -r requirements.txt
 
 RUN apt-get purge -y build-essential && \
