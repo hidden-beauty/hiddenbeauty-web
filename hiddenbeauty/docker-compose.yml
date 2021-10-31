@@ -12,6 +12,7 @@ services:
     build: .
     expose:
       - "3031"
+    restart: unless-stopped
     volumes:
       - /home/hb/hiddenbeauty-models:/hiddenbeauty-models
       - /home/hb/kits:/kits
@@ -26,6 +27,7 @@ services:
     build: .
     expose:
       - "8080"
+    restart: unless-stopped
     volumes:
       - hb-cache-volume:/cache \
       - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
@@ -39,6 +41,18 @@ services:
         options:
             gelf-address: "udp://95.217.186.18:12401"
             tag: hb
+
+  redirect:
+    image: nginx:1.21.3
+    restart: unless-stopped
+    expose:
+      - "8888"
+    volumes:
+      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/nginx/wab-redirect.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      - VIRTUAL_HOST=wearebeautiful.info
+      - LETSENCRYPT_HOST=wearebeautiful.info
+      - LETSENCRYPT_EMAIL=mayhem@gmail.com
 
 networks:
   default:
