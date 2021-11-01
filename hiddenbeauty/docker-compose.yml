@@ -16,7 +16,7 @@ services:
     volumes:
       - /home/hb/hiddenbeauty-models:/hiddenbeauty-models
       - /home/hb/kits:/kits
-      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
+      - /root/hiddenbeauty-harbormaster/repos/hiddenbeauty.ch/hiddenbeauty/admin/uwsgi/uwsgi.ini:/code/uwsgi.ini:ro
     environment:
       - VIRTUAL_HOST=hiddenbeauty.ch
       - LETSENCRYPT_HOST=hiddenbeauty.ch
@@ -31,7 +31,7 @@ services:
     volumes:
       - hb-cache-volume:/cache \
       - /home/hb/hiddenbeauty-model:/hiddenbeauty-models
-      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/nginx/hb-comp.conf:/etc/nginx/nginx.conf:rw
+      - /root/hiddenbeauty-harbormaster/repos/hiddenbeauty.ch/hiddenbeauty/admin/nginx/hb-comp.conf:/etc/nginx/nginx.conf:rw
     environment:
       - VIRTUAL_HOST=hiddenbeauty.ch
       - LETSENCRYPT_HOST=hiddenbeauty.ch
@@ -48,7 +48,7 @@ services:
     expose:
       - "8888"
     volumes:
-      - /home/hb/hiddenbeauty-web/hiddenbeauty/admin/nginx/wab-redirect.conf:/etc/nginx/conf.d/default.conf
+      - /root/hiddenbeauty-harbormaster/repos/hiddenbeauty.ch/hiddenbeauty/admin/nginx/wab-redirect.conf:/etc/nginx/conf.d/default.conf
     environment:
       - VIRTUAL_HOST=wearebeautiful.info
       - LETSENCRYPT_HOST=wearebeautiful.info
