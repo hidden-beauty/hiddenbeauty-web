@@ -66,10 +66,13 @@ $( document ).ready(function() {
     if (Cookies.get("sfw") == "0")
     {
         sfw = false;
+        $('.img-button').each(function(i, obj) {
+            unblur_image(this.id);
+        });
         $('#blur-switch').bootstrapToggle('off', true);
     }
     $('.img-button').each(function(i, obj) {
-        $("#" + this.id).on('click', img_click);
+        $("#" + this.id).on('click', img_button_click);
     });
 });
 
@@ -121,7 +124,7 @@ function unblur_image(id) {
     $("#screenshot-" + id).attr("src", url);
 }
 
-function img_click(evt) {  
+function img_button_click(evt) {  
     id = evt.target.id;
     if (!(id in states)) {
         states[id] = initial_sfw;
