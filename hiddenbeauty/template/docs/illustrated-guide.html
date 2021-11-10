@@ -17,9 +17,9 @@
            To start off with, we have a group of people: Young, old, thin, overweight, differently abled, different cultures:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="group-overlay"
+           <img class="guide-image invisible" id="group-overlay"
                 src="{{ static_url('img/illustrations/group_overlay.png') }}">
-           <img class="guide-image" id="group"
+           <img class="guide-image invisible" id="group"
                 src="{{ static_url('img/illustrations/group.png') }}">
         </div>
         <p>
@@ -35,9 +35,9 @@
            cisgender</a> females:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="cis-female-overlay"
+           <img class="guide-image invisible" id="cis-female-overlay"
                 src="{{ static_url('img/illustrations/cis_female_overlay.png') }}">
-           <img class="guide-image" id="cis-female"
+           <img class="guide-image invisible" id="cis-female"
                 src="{{ static_url('img/illustrations/cis_female.png') }}">
         </div>
         <p>
@@ -51,9 +51,9 @@
            Below are cisgender males -- pay close attention to their testicles:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="cis-male-overlay"
+           <img class="guide-image invisible" id="cis-male-overlay"
                 src="{{ static_url('img/illustrations/cis_male_overlay.png') }}">
-           <img class="guide-image" id="cis-male"
+           <img class="guide-image invisible" id="cis-male"
                 src="{{ static_url('img/illustrations/cis_male.png') }}">
         </div>
         <p>
@@ -66,9 +66,9 @@
            Here are some illustrations of penises and how they might look in a more realistic context:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="penis-closeup-overlay"
+           <img class="guide-image invisible" id="penis-closeup-overlay"
                 src="{{ static_url('img/illustrations/penis_closeup_overlay.png') }}">
-           <img class="guide-image" id="penis-closeup"
+           <img class="guide-image invisible" id="penis-closeup"
                 src="{{ static_url('img/illustrations/penis_closeup.png') }}">
         </div>
         <p>
@@ -77,9 +77,9 @@
         </p>
 
         <div class="guide-div">
-           <img class="guide-image" id="penis-arousal-overlay"
+           <img class="guide-image invisible" id="penis-arousal-overlay"
                 src="{{ static_url('img/illustrations/penis_arousal_overlay.png') }}">
-           <img class="guide-image" id="penis-arousal"
+           <img class="guide-image invisible" id="penis-arousal"
                 src="{{ static_url('img/illustrations/penis_arousal.png') }}">
         </div>
         <p>
@@ -92,9 +92,9 @@
            And now the same for vulvas, showing two different examples:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="vulva-closeup-overlay"
+           <img class="guide-image invisible" id="vulva-closeup-overlay"
                 src="{{ static_url('img/illustrations/vulva_closeup_overlay.png') }}">
-           <img class="guide-image" id="vulva-closeup"
+           <img class="guide-image invisible" id="vulva-closeup"
                 src="{{ static_url('img/illustrations/vulva_closeup.png') }}">
         </div>
         <p>
@@ -103,9 +103,9 @@
         </p>
 
         <div class="guide-div">
-           <img class="guide-image" id="vulva-aroused-overlay"
+           <img class="guide-image invisible" id="vulva-aroused-overlay"
                 src="{{ static_url('img/illustrations/vulva_aroused_overlay.png') }}">
-           <img class="guide-image" id="vulva-aroused"
+           <img class="guide-image invisible" id="vulva-aroused"
                 src="{{ static_url('img/illustrations/vulva_aroused.png') }}">
         </div>
         <p>
@@ -117,9 +117,9 @@
            Below is an illustration of intersex people, in-between male and female:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="intersex-closeup-overlay"
+           <img class="guide-image invisible" id="intersex-closeup-overlay"
                 src="{{ static_url('img/illustrations/intersex_closeup_overlay.png') }}">
-           <img class="guide-image" id="intersex-closeup" 
+           <img class="guide-image invisible" id="intersex-closeup" 
                 src="{{ static_url('img/illustrations/intersex_closeup.png') }}">
         </div>
         <p>
@@ -136,9 +136,9 @@
            fit your expectations?
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="trans-male-overlay"
+           <img class="guide-image invisible" id="trans-male-overlay"
                 src="{{ static_url('img/illustrations/trans_males_overlay.png') }}">
-           <img class="guide-image" id="trans-male"
+           <img class="guide-image invisible" id="trans-male"
                 src="{{ static_url('img/illustrations/trans_males.png') }}">
         </div>
         <p>
@@ -153,9 +153,9 @@
            Last, but certainly not least, we have transgender females:
         </p>
         <div class="guide-div">
-           <img class="guide-image" id="trans-female-overlay"
+           <img class="guide-image invisible" id="trans-female-overlay"
                 src="{{ static_url('img/illustrations/trans_females_overlay.png') }}">
-           <img class="guide-image" id="trans-female"
+           <img class="guide-image invisible" id="trans-female"
                 src="{{ static_url('img/illustrations/trans_females.png') }}">
         </div>
         <p>
@@ -173,6 +173,13 @@
 
 {% block scripts %}
 <script type="module">
+
+$(window).on('load', function() {
+   console.log("images loaded!");
+   $('.guide-image').each(function(i, obj) {
+        $("#" + this.id).toggleClass("invisible");
+   });
+});
 
 $("#group").click(function() {
     $("#group-overlay").css('z-index', '2');
