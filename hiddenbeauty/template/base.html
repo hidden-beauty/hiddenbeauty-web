@@ -58,7 +58,6 @@
 <script>
 
 var sfw = {{ g.sfw_js }};
-var states = {};
 var initial_sfw = sfw;
 
 $( document ).ready(function() {
@@ -125,16 +124,10 @@ function unblur_image(id) {
 }
 
 function img_button_click(evt) {  
-    id = evt.target.id;
-    if (!(id in states)) {
-        states[id] = initial_sfw;
-    }
-
-    states[id] = !states[id]
-    if (states[id])
-        blur_image(id);
+    if ($("#" + this.id).text() == "blur")
+        blur_image(this.id);
     else
-        unblur_image(id);
+        unblur_image(this.id);
 }
 
 function make_url(id, code, version, sfw, tagged) {
