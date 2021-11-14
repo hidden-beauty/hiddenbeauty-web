@@ -1,8 +1,9 @@
 User-agent: *
+Allow: /
 Allow: /about
 Allow: /privacy 
 Allow: /team
 Allow: /company
 Allow: /opensource
 Allow: /contact
-Disallow: /
+Disallow: /*
