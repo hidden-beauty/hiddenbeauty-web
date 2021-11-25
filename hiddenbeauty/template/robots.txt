@@ -6,4 +6,4 @@ Allow: /team
 Allow: /company
 Allow: /opensource
 Allow: /contact
-Disallow: /*
+Disallow: /
